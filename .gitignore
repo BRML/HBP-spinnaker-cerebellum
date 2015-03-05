@@ -2,6 +2,8 @@ build/
 binaries/
 output_binaries/
 reports/
+SpiNNaker_Package.egg-info/
+dist/
 *.o
 *.a
 *.lo
