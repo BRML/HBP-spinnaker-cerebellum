@@ -1,0 +1,2 @@
+Visualiser: spikevisualiser.cpp
+	g++ -DFREEGLUT_STATIC -DPTW32_STATIC_LIB -static-libgcc -static-libstdc++ -o Visualiser.exe spikevisualiser.cpp -lpthreadGC2 -lfreeglut_static -lopengl32 -lglu32 -lws2_32 -lwinmm -lgdi32 

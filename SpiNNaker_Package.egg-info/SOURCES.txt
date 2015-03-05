@@ -1,0 +1,8 @@
+README
+setup.py
+SpiNNaker_Package.egg-info/PKG-INFO
+SpiNNaker_Package.egg-info/SOURCES.txt
+SpiNNaker_Package.egg-info/dependency_links.txt
+SpiNNaker_Package.egg-info/top_level.txt
+pacman103/__init__.py
+pacman103/spec_disassembler.py

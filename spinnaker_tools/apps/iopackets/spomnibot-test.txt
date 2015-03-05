@@ -1,0 +1,20 @@
+#000007f1.00000002 //set omnirob project
+
+#000002b7   //beep
+
+#000002c3.00000019 // sensor frequency: 25Hz
+#000002c2.00000033 // request 25Hz reporting of Bump sensors and compass
+
+#000002a0.00000080 // drive forward
+
+-> bump signal? (id=9,dim=0,ss=0) #00000480
+#000002b6          // beep
+-> record compass! (id=9,dim=5,ss=3?) #00000497
+#000002a0.FFFFFFC0 // slowly backwards
+#000002a2.00000010 // and turn a little
+
+-> compass + 120000 millidegrees?
+#000002a2.00000000 // turn off
+#000002a0.00000080 // forwards
+
+

@@ -1,0 +1,14 @@
+binaries/
+output_binaries/
+reports/
+*.o
+*.a
+*.lo
+*.la
+*.db
+*~
+# spinnaker binaries
+*.aplx
+*.elf
+*.rpt
+*.pyc

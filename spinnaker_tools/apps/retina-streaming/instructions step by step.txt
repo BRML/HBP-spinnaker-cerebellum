@@ -1,0 +1,81 @@
+
+
+boards: 
+ #7   10.162.242.14 (4 chip)
+#28   10.162.242.15 (4 chip)
+#??   10.162.242.   (48 chip)
+
+
+cd /spinnaker_package/tools
+for booting and tubotron
+
+./tubotron -net &
+ping 10.162.242.14
+./ybug 10.162.242.14
+@ boot.ybug
+
+
+
+cd spinnaker_package/
+source ./source.sh  (per poter compilare)
+source ../spinnaker_package/source.sh
+
+
+cd spinnaker_package/src/spin1_api/examples
+for compiling and loading the program
+
+make -f gnu.make EXAMPLE=simple
+./ybug 10.162.242.14
+@ run_simple
+
+
+===============================================
+
+new ybug version (1.30)
+
+./tubotron &
+
+./ybug 10.162.242.14
+boot scamp.boot spin3.conf
+
+
+cd /home/marcello/gridmap/Andrew/spinnaker_tools
+source ./setup
+
+
+not sure is mandatory
+cd sark
+./make_gnu
+
+
+
+
+rtr_dump
+ps
+
+
+
+---
+
+boot scamp.boot spin3.conf
+iptag .
+sp 0 0
+app_load network.aplx all 1-17 30
+ps
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

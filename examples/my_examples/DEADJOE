@@ -1,0 +1,149 @@
+
+*** These modified files were found in JOE when it aborted on Mon Aug 25 17:07:25 2014
+*** JOE was aborted because the terminal closed
+
+*** File '(Unnamed)'
+0
+
+*** File '(Unnamed)'
+heatdemo
+0.002
+0.002
+
+*** File '(Unnamed)'
+32
+0.001
+record
+record
+record
+record
+
+inp_io
+io_pri
+io
+
+*** File '(Unnamed)'
+pyNN+spiNNaker-Cerebellum+control.py
+pyNN+spiNNaker-Cerebellum+control.py
+pyNN+spiNNaker-Cerebellum+control.py
+pyNN+spiNNaker-Cerebellum+control.py
+pyNN+spiNNaker-Cerebellum+control.py
+pyNN+spiNNaker-Cerebellum+control.py
+pyNN+spiNNaker-Cerebellum+control.py
+pyNN+spiNNaker-Cerebellum+control.py
+pyNN+spiNNaker-Cerebellum+control.py
+pyNN+spiNNaker-Cerebellum+control.py
+minimal_learning.py
+
+*** These modified files were found in JOE when it aborted on Mon Nov  3 17:05:48 2014
+*** JOE was aborted because the terminal closed
+
+*** File '(Unnamed)'
+0
+
+*** File '(Unnamed)'
+heatdemo
+0.002
+0.002
+
+*** File '(Unnamed)'
+jointPosition
+kp
+joint pos
+error
+get_de
+requires
+requires
+multi_cast
+multi_cast
+remote
+
+*** File '(Unnamed)'
+remote-source_example+CAN.py
+myoexample.py
+myoexample.py
+remote-source_example+CAN.py
+myoexample.py
+myoexample.py
+myoexample.py
+myoexample.py
+myoexample.py
+myoexample.py
+myoexample.py
+myoexample.py
+
+*** These modified files were found in JOE when it aborted on Thu Nov  6 17:20:15 2014
+*** JOE was aborted because the terminal closed
+
+*** File '(Unnamed)'
+0
+
+*** File '(Unnamed)'
+heatdemo
+0.002
+0.002
+
+*** File '(Unnamed)'
+newData
+payload
+bunch
+bunch
+bunch
+inp
+payload
+inputshift
+gauss_width
+ip
+
+*** File '(Unnamed)'
+spike_source_remote.py
+spike_source_remote.py
+spike_source_remote.py
+myoexample.py
+spike_source_remote.py
+spike_source_remote.py
+spike_source_remote.py
+bmpc-130
+myoexample.py
+myoexample.py
+myoexample.py
+
+*** These modified files were found in JOE when it aborted on Thu Nov 20 11:14:05 2014
+*** JOE was aborted because the terminal closed
+
+*** File '(Unnamed)'
+0
+
+*** File '(Unnamed)'
+heatdemo
+0.002
+0.002
+
+*** File '(Unnamed)'
+sendMotor
+sendMotor
+CANMessage
+endMot
+runtime
+10
+last_runtime
+add_spike
+>>
+mf
+
+*** File '(Unnamed)'
+/home/toph/tools/spinnaker_package_jun14/pacman103/front/common/spike_source_remote.py
+/home/toph/tools/spinnaker_package_jun14/pacman103/front/common/spike_source_remote.py
+pyNN+spiNNaker-Cerebellum.py
+pyNN+spiNNaker-Cerebellum.py
+pyNN+spiNNaker-Cerebellum_big.py
+pyNN+spiNNaker-Cerebellum.py
+pyNN+spiNNaker-Cerebellum.py
+pyNN+spiNNaker-Cerebellum.py
+myoexample.py
+myoexample.py
+myoexample.py
+myoexample.py
+
+*** These modified files were found in JOE when it aborted on Mon Feb 23 17:02:24 2015
+*** JOE was aborted because the terminal closed

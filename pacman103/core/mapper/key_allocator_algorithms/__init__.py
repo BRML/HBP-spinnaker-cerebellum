@@ -1,0 +1,1 @@
+from pacman103.core.mapper.key_allocator_algorithms.basic_key_allocator import BasicKeyAllocator

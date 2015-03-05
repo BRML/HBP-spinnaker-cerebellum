@@ -1,0 +1,463 @@
+Initializing robot code
+[INFO]     (../common/spin1-api-configuration.c:  49): e50071f0
+[INFO]     (../common/spin1-api-configuration.c:  55): SDRAM data begins at address:70027c30 Simulation should run for:10000 ticks
+[INFO]     (../common/configuration.c:  57): magic = ad130ad6, version = 1.0, timer period = 1000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 233): Reading data from 0x70027c90
+[INFO]     (../common/spin1-api-configuration.c:  62): system_lead_app_configured: started
+[INFO]     (../common/spin1-api-configuration.c:  68): Allocating 3 router entries
+[INFO]     (../common/spin1-api-configuration.c:  83): system_lead_app_configured: completed successfully
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 297): MCPL callbacks requested.
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 302): MC callback requested.
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 306): time is ticking every 1000!
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 310): timer tick callback requested.
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 313): Starting
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 208): External Key = fefe0000, Internal key = 00002000, scaler = 10.000000, sample_time = 120, decay_factor = 0.367859, kernel_amplitude = 4.082458, threshold = 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 209): Myosetpointkey: fefffe80, Myosensorkey: fefffe20
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 120): updated spike sources with sens: 577, set: 577, err: 0
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 121): IOKEY: fffe0000, MFKEY: fffe0000
+[INFO]     (../robot_motor_control/myorobot_motor_control.c: 220): Simulation complete.
+
+		[api_debug] RTR mc     packets: 2533
+		[api_debug] RTR dpd mc packets: 0
+		[api_debug] ISR thrown packets: 0
+		[api_debug] DMA bursts:  0

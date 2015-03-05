@@ -1,0 +1,24 @@
+[INFO]     (../../spike_source/common/spike_source.c:  13): load_dtcm: started
+[INFO]     (../../common/spin1-api-configuration.c:  49): e50070f0
+[INFO]     (../../common/spin1-api-configuration.c:  55): SDRAM data begins at address:70000000 Simulation should run for:10000 ticks
+[INFO]     (../../common/configuration.c:  57): magic = ad130ad6, version = 1.0, timer period = 1000
+[INFO]     (../../common/configuration.c:  66): system_data_filled: starting
+[INFO]     (../../common/configuration.c:  76): 	system word = beef0001, spike history recording region size = 40004, neuron potential recording region size = 0, neuron gsyn recording region size = 0
+[INFO]     (../../spike_source/remote_poisson/spike_source_remote_poisson.c: 240): spike_source_data_filled: starting
+[INFO]     (../../spike_source/remote_poisson/spike_source_remote_poisson.c: 155): spike_source_poisson_parameters_filled: starting
+[INFO]     (../../spike_source/remote_poisson/spike_source_remote_poisson.c: 160): Poisson active
+[INFO]     (../../spike_source/remote_poisson/spike_source_remote_poisson.c: 166): 	key = 00000800, (x: 0, y: 0) proc: 1
+[INFO]     (../../spike_source/remote_poisson/spike_source_remote_poisson.c: 182): 	Seed (4) = 1433378774 905787868 481812219 630126242
+[INFO]     (../../spike_source/remote_poisson/spike_source_remote_poisson.c: 187): 	slow spike sources = 32, fast spike sources = 0, spike sources = 32
+[INFO]     (../../spike_source/remote_poisson/spike_source_remote_poisson.c: 212): Hello!
+[INFO]     (../../spike_source/remote_poisson/spike_source_remote_poisson.c: 225): sensor_to_neu: 0.018219, neu_to_sens: 54.838684, sensor_to_lut: 0.000000, sensor_to_spike: 18.823517
+[INFO]     (../../spike_source/remote_poisson/spike_source_remote_poisson.c: 227): sensor_min: -256, sensor_max: 1444, sensor_range: 1700
+[INFO]     (../../spike_source/remote_poisson/spike_source_remote_poisson.c: 228): reciprocal max rate: 10.000000, rec. min rate: 32000.000000, width: 15.282867
+[INFO]     (../../spike_source/remote_poisson/spike_source_remote_poisson.c: 230): spike_source_poisson_parameters_filled: completed successfully
+[INFO]     (../../common/recording.c:  56): Recording channel 0 configured to use 40004 byte memory block starting at 70000318
+[INFO]     (../../spike_source/remote_poisson/spike_source_remote_poisson.c: 249): spike_source_data_filled: completed successfully
+[INFO]     (../../spike_source/common/spike_source.c:  33): load_dtcm: completed successfully
+[INFO]     (../../common/out_spikes.c:  13): Out spike size is 1 words, allowing 32 spike sources
+[INFO]     (../../spike_source/common/spike_source.c: 111): Starting
+[INFO]     (../../spike_source/common/spike_source.c:  45): Timer tick 0
+[INFO]     (../../spike_source/remote_poisson/spike_source_remote_poisson.c: 277): NO MCPL callbacks requested for data input.

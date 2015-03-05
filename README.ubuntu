@@ -1,0 +1,84 @@
+SpiNNaker Package 103
+*********************
+
+This file contains instructions for installation of the tools on Ubuntu.  This
+has been tested on Ubuntu 14.04 64-bit but should be the same for 32-bit
+machines.
+
+Installation
+************
+To install the Spinnaker Package on Ubuntu (assuming you have already
+extracted the tar.gz file):
+1) Install the Required Dependencies
+2) Decide if you would like to install any of the Graphics Dependencies or
+Development Dependencies, and if so, install them
+3) Install the Spinnaker Package
+
+Required Dependencies
+*********************
+ - Python 2.7
+      * From a terminal, run
+            sudo apt-get install python27
+      
+ - numpy
+      * From a terminal, run
+            sudo apt-get install python-numpy
+
+ - setuptools
+      * From a terminal, run
+            sudo apt-get install python-setuptools
+
+ - PyNN 0.7
+      * From a terminal, run
+            sudo apt-get install python-pynn
+
+ - Graphviz
+      * From a terminal, run
+            sudo apt-get install graphviz
+            
+Graphics Dependencies
+*********************
+If you wish to use matplotlib and/or scipy (e.g. pylab), you will need to
+install the following:
+
+ - matplotlib
+      * From a terminal, run
+            sudo apt-get install python-matplotlib
+
+If you wish to enable the visualiser (i.e. set enabled = True in the
+[Visualiser] section of the .pacman.cfg file), you will need to install the
+following (found in the Graphics-Visualiser folder):
+ - PyGTK
+      * From a terminal, run
+            sudo apt-get install python-gtk2
+
+ - PyCha
+      * From a terminal, run
+            sudo apt-get install python-pycha
+
+Development Dependencies
+************************
+The following dependencies are required if you are planning on compiling any
+new c code to run on SpiNNaker:
+ - 32-bit libc (if you are using a 64-bit system):
+     * From a terminal, run
+           sudo apt-get install libc6-i386
+
+ - CodeSourcery GCC ARM EABI Compiler
+     * Download https://spinnaker.cs.man.ac.uk/tiki-download_wiki_attachment.php?attId=34&page=SpiNNaker%20Workshop%20August%202013&download=y
+     * Extract the downloaded archive
+     * Add the "bin" directory within the installed location to the PATH 
+       enviroment variable in .profile in your home directory e.g. append the
+       following:
+           export PATH=$PATH:<install-location>/bin
+       where <install-location> is the place where you extracted the file.
+
+ - Perl and Perl TK
+     * From a terminal, run
+           sudo apt-get install perl perl-tk libterm-readline-gnu-perl
+
+Installing SpiNNaker Package
+****************************
+ * From the command line where the package is extracted, run
+       sudo python setup-pyNN.py install
+       python setup.py develop --user

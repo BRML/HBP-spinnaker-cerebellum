@@ -1,0 +1,1088 @@
+
+@;------------------------------------------------------------------------------
+@;
+@; sark_alib.s	    Initialisation & assembly code for SARK
+@;
+@; Copyright (C)    The University of Manchester - 2010-2013
+@;
+@; Author           Steve Temple, APT Group, School of Computer Science
+@; Email            temples@cs.man.ac.uk
+@;
+@;------------------------------------------------------------------------------
+
+                .include "spinnaker.gas"
+                .include "sark.gas"
+
+
+@------------------------------------------------------------------------------
+
+@ Need to import the following to force inclusion in the ELF symbol table
+@ where they are needed to build the APLX header
+
+                .ifndef  GNU
+
+                .global ||Image$$ITCM$$RO$$Base|| @ Base/length of ITCM
+                .global ||Image$$ITCM$$RO$$Length|| @ RO data
+
+                .global ||Image$$DTCM$$RW$$Base|| @ Base/length of DTCM
+                .global ||Image$$DTCM$$RW$$Length|| @ RW data
+
+                .global ||Image$$DTCM$$ZI$$Base|| @ Base/length of DTCM
+                .global ||Image$$DTCM$$ZI$$Length|| @ ZI data
+
+                .global ||Image$$DTCM$$ZI$$Limit|| @ ZI limit (heap base)
+
+                .global ||Image$$STACK$$ZI$$Limit|| @ Stack top
+                .global ||Image$$STACK$$ZI$$Length|| @ Stack size
+                .endif      
+
+@------------------------------------------------------------------------------
+
+                .section _alib_reset, "ax"
+                .arm    
+
+                .global sark_init
+                .global sark_pre_main
+                .global sark_post_main
+                .global rte_handler
+                .global c_main
+
+                .global cpu_reset
+
+cpu_reset:      ldr     pc, reset_vec           @ Reset
+undef:          ldr     pc, undef_vec           @ Undefined instr
+                ldr     pc, svc_vec             @ SVC
+                ldr     pc, pabt_vec            @ Prefetch abort
+                ldr     pc, dabt_vec            @ Data abort
+                bl      undef                   @ (Former address exception)
+                ldr     pc, [pc, #-0xff0]       @ IRQ (via VIC)
+                ldr     pc, fiq_vec             @ FIQ
+
+@------------------------------------------------------------------------------
+
+@ The following table is available to C as "sark_vec", a pointer to a
+@ struct of type "sark_vec_t". It must be at 0x20.
+
+@ 8 words at 0x20...
+
+reset_vec:      .word   reset_entry             @ 20
+undef_vec:      .word   undef_error             @ 24
+svc_vec:        .word   svc_error               @ 28
+pabt_vec:       .word   pabt_error              @ 2c
+dabt_vec:       .word   dabt_error              @ 30
+aplx_proc:      .word   sark_aplx               @ 34 Must be @ offset 0x34 !
+irq_vec:        .word   irq_error               @ 38 Possibly spare ??
+fiq_vec:        .word   fiq_error               @ 3c
+
+@ 0x40 ...
+
+svc_stack:      .short  SVC_STACK / 4           @ 40 Default stack sizes (words)
+irq_stack:      .short  IRQ_STACK / 4           @ 42
+fiq_stack:      .short  FIQ_STACK / 4           @ 44
+
+                .ifdef  GNU
+stack_size:     .short  STACK_SIZE              @ 46 Total stack size in bytes
+code_top:       .word   RO_LENGTH               @ 48 Top of code
+heap_base:      .word   HEAP_BASE               @ 4c Base of heap
+stack_top:      .word   STACK_TOP               @ 50 Top of stack
+                .else       
+stack_size:     .short  ||Image$$STACK$$ZI$$Length||
+code_top:       .word   ||Image$$ITCM$$RO$$Length||
+heap_base:      .word   ||Image$$DTCM$$ZI$$Limit||
+stack_top:      .word   ||Image$$STACK$$ZI$$Limit||
+                .endif      
+
+stack_fill:     .word   DEAD_WORD               @ 54 Stack fill word
+
+num_msgs:       .byte   NUM_SDP_MSGS            @ 58 Number of SDP message bufs
+sark_slot:      .byte   SARK_SLOT               @ 59 VIC slot for int handler
+num_events:     .byte   INIT_EVENTS             @ 5a Number of initial events
+api:            .byte   0                       @ 5b Running API
+
+app_id:         .byte   0                       @ 5c App ID
+app_flags:      .byte   0                       @ 5d App flags
+__PAD:          .short  0                       @ 5e Pad
+
+                .ifdef  SARK_EVENT
+event_vec:      .space  EVENT_COUNT * 4         @ Space for Event vectors.
+                .endif      
+
+@------------------------------------------------------------------------------
+
+reset_entry:    adr     r1, reset_vec           @ Point to sark_vec
+                strh    r0, [r1, #app_id-reset_vec] @ AppID passed in at reset
+                adr     r0, reset_error         @ then update reset vector to
+                str     r0, [r1, #0]            @ trap branch through zero
+
+@ Set CP15 control register
+
+                ldr     r0, =0x1f7e             @ Thumb on, Low vecs, ITCM on
+                mcr     p15, 0, r0, c1, c0, 0   @ LE, WB on, DTCM on, Align on
+
+@ Go to SVC mode, set stack pointer to top of stack
+
+                msr     cpsr_c, #IMASK_ALL+MODE_SVC @ SVC mode
+                mov     sp, #ITCM_TOP           @ Set temporary stack
+                bl      sark_config             @ Call config routine
+                ldr     sp, stack_top           @ Set proper stack top
+
+@ Fill all stacks with fill word
+
+                ldrh    r2, stack_size          @ Fill all stacks
+                ldr     r1, stack_fill          @ with fill word
+                sub     r0, sp, r2
+                bl      sark_word_set           @ Must use no stack!
+
+@ Call initialisation, main and cleanup routines (if present)
+
+                mov     r0, sp                  @ Copy stack top to r0
+                bl      sark_init               @ SARK initialisation
+                msr     cpsr_c, r0              @ Set CPU mode from result
+
+                bl      sark_wait               @ Wait for go signal
+
+                bl      sark_pre_main           @ Runtime system init
+
+                bl      c_main                  @ C main procedure
+
+                bl      sark_post_main          @ RTS clean-up
+
+                bl      cpu_sleep               @ Finally sleep...
+
+@------------------------------------------------------------------------------
+
+@ Run time error handlers
+
+                .global sark
+
+                .global rt_error
+                .global vic_error
+
+reset_error:    mov     r0, #A_RTE_RESET        @ Probably branch through zero
+                b       rt_error                @ No mode change
+
+undef_error:    mov     r11, #A_RTE_UNDEF       @ Undefined instruction
+                b       exc_error               @ Mode changes
+
+svc_error:      mov     r11, #A_RTE_SVC         @ SVC instruction
+                b       exc_error               @ Mode changes
+
+pabt_error:     mov     r11, #A_RTE_PABT        @ Prefetch abort
+                b       exc_error               @ Mode changes
+
+dabt_error:     mov     r11, #A_RTE_DABT        @ Data abort
+                b       exc_error               @ Mode changes
+
+irq_error:      mov     r11, #A_RTE_IRQ         @ Unhandled IRQ (unlikely)
+                b       exc_error               @ Mode changes
+
+fiq_error:      mov     r11, #A_RTE_FIQ         @ Unhandled FIQ (unlikely)
+                b       exc_error               @ Mode changes
+
+vic_error:      mov     r11, #A_RTE_VIC         @ Unconfigured VIC vector
+
+                mov     r0, #VIC_BASE           @ Pick up some VIC state
+                ldr     r0, [r0, #VIC_VADDR]    @ Drop through...
+
+@ Come here if error has changed mode.
+
+exc_error:      mov     r10, lr                 @ LR to r10
+                mrs     r8, spsr                @ SPSR to r8
+                orr     r9, r8, #IMASK_ALL      @ Modified (ints off) to r9
+                bic     r9, #THUMB_BIT          @ and force ARM mode
+                msr     cpsr_cxsf, r9           @ then go back to caller mode
+                b       cc_error                @ and join common code
+
+@ Come here if error did not change mode.
+
+rt_error:       mov     r11, r0                 @ Error code to r11
+                mrs     r8, cpsr                @ CPSR to r8
+                mov     r10, lr                 @ LR to r10
+
+@ Now dump state - r0-r7, psr, sp, lr
+
+@ Note that offsets/sizes here must track definition of "vcpu_block_t"
+@ in "sark.h"
+
+cc_error:       ldr     r12, =sark              @ Get virt_cpu
+                ldr     r12, [r12, #SARK_VIRT_CPU]
+                mov     r9, #VCPU_SIZE          @ Size of struct
+                ldr     lr, =SV_VCPU            @ Point to base of dumps
+                mla     lr, r12, r9, lr         @ Compute struct address
+                mov     r9, sp                  @ Get sp
+                stm     lr, {r0-r10}            @ and dump registers
+                strb    r11, [lr, #VCPU_RT_CODE] @ then error code
+
+                mov     r8, #A_STATE_RTE        @ Update state
+                strb    r8, [lr, #VCPU_CPU_STATE]
+
+                mov     r0, r11                 @ Error code back to r0
+                msr     cpsr_c, #IMASK_ALL+MODE_SVC @ SVC mode, ints off
+                bl      rte_handler             @ Call handler then shut down
+
+@------------------------------------------------------------------------------
+
+@ void cpu_shutdown (void);
+
+                .global cpu_shutdown
+                .type   cpu_shutdown, STT_FUNC 
+cpu_shutdown:
+
+                msr     cpsr_c, #IMASK_ALL+MODE_SVC @ SVC mode, ints off
+                mov     r0, #VIC_BASE
+                mov     r1, #0xffffffff
+                str     r1, [r0, #VIC_DISABLE]
+
+
+@ void cpu_sleep (void);
+
+                .global cpu_sleep
+                .type   cpu_sleep, STT_FUNC 
+cpu_sleep:
+
+                mcr     p15, 0, r0, c7, c0, 4   @ Enter WFI mode
+                b       cpu_sleep               @ Loop forever
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_get_cp15, "ax"
+                .arm    
+
+@ uint cpu_get_cp15_cr (void);
+
+                .global cpu_get_cp15_cr
+                .type   cpu_get_cp15_cr, STT_FUNC 
+cpu_get_cp15_cr:
+
+                mrc     p15, 0, r0, c1, c0, 0
+                bx      lr
+
+
+                .section alib_set_cp15, "ax"
+                .arm    
+
+@ void cpu_set_cp15_cr (uint value);
+
+                .global cpu_set_cp15_cr
+                .type   cpu_set_cp15_cr, STT_FUNC 
+cpu_set_cp15_cr:
+
+                mcr     p15, 0, r0, c1, c0, 0
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_init_mode, "ax"
+                .arm    
+
+@ uchar *cpu_init_mode (uint *stack, uint mode, uint size);
+
+                .global cpu_init_mode
+                .type   cpu_init_mode, STT_FUNC 
+cpu_init_mode:
+
+                mrs     r3, cpsr                @ Caller mode to r3
+                msr     cpsr_c, r1              @ Set CPSR from r1
+                mov     sp, r0                  @ and SP from r0
+                msr     cpsr_csxf, r3           @ Restore mode and
+                sub     r0, r2, lsl #2          @ return new stack base
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_irq_on, "ax"
+                .arm    
+
+@ uint cpu_irq_enable (void);
+
+                .global cpu_irq_enable
+                .global spin1_irq_enable
+
+                .type   spin1_irq_enable, STT_FUNC 
+spin1_irq_enable:
+
+                .type   cpu_irq_enable, STT_FUNC 
+cpu_irq_enable:
+
+                mrs     r0, cpsr
+                bic     r1, r0, #IMASK_IRQ
+                msr     cpsr_c, r1
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_irq_disable, "ax"
+                .arm    
+
+@ uint cpu_irq_disable (void);
+
+                .global cpu_irq_disable
+                .global spin1_irq_disable
+
+                .type   spin1_irq_disable, STT_FUNC 
+spin1_irq_disable:
+
+                .type   cpu_irq_disable, STT_FUNC 
+cpu_irq_disable:
+
+                mrs     r0, cpsr
+                orr     r1, r0, #IMASK_IRQ
+                msr     cpsr_c, r1
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_fiq_enable, "ax"
+                .arm    
+
+@ uint cpu_fiq_enable (void);
+
+                .global cpu_fiq_enable
+                .global spin1_fiq_enable
+
+                .type   spin1_fiq_enable, STT_FUNC 
+spin1_fiq_enable:
+
+                .type   cpu_fiq_enable, STT_FUNC 
+cpu_fiq_enable:
+
+                mrs     r0, cpsr
+                bic     r1, r0, #IMASK_FIQ
+                msr     cpsr_c, r1
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_fiq_disable, "ax"
+                .arm    
+
+@ uint cpu_fiq_disable (void);
+
+                .global cpu_fiq_disable
+                .global spin1_fiq_disable
+
+                .type   spin1_fiq_disable, STT_FUNC 
+spin1_fiq_disable:
+
+                .type   cpu_fiq_disable, STT_FUNC 
+cpu_fiq_disable:
+
+                mrs     r0, cpsr
+                orr     r1, r0, #IMASK_FIQ
+                msr     cpsr_c, r1
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_int_enable, "ax"
+                .arm    
+
+@ uint cpu_int_enable (void);
+
+                .global cpu_int_enable
+                .global spin1_int_enable
+
+                .type   spin1_int_enable, STT_FUNC 
+spin1_int_enable:
+
+                .type   cpu_int_enable, STT_FUNC 
+cpu_int_enable:
+
+                mrs     r0, cpsr
+                bic     r1, r0, #IMASK_ALL
+                msr     cpsr_c, r1
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_int_disable, "ax"
+                .arm    
+
+@ uint cpu_int_disable (void);
+
+                .global cpu_int_disable
+                .global spin1_int_disable
+
+                .type   spin1_int_disable, STT_FUNC 
+spin1_int_disable:
+
+                .type   cpu_int_disable, STT_FUNC 
+cpu_int_disable:
+
+                mrs     r0, cpsr
+                orr     r1, r0, #IMASK_ALL
+                msr     cpsr_c, r1
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_int_restore, "ax"
+                .arm    
+
+@ void cpu_int_restore (uint cpsr);
+
+                .global cpu_int_restore
+                .global spin1_mode_restore
+
+                .type   spin1_mode_restore, STT_FUNC 
+spin1_mode_restore:
+
+                .type   cpu_int_restore, STT_FUNC 
+cpu_int_restore:
+
+                msr     cpsr_cxsf, r0
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_get_cpsr, "ax"
+                .arm    
+
+@ uint cpu_get_cspr (void);
+
+                .global cpu_get_cpsr
+                .type   cpu_get_cpsr, STT_FUNC 
+cpu_get_cpsr:
+
+                mrs     r0, cpsr
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_set_cpsr, "ax"
+                .arm    
+
+@ void cpu_set_cpsr (uint cpsr);
+
+                .global cpu_set_cpsr
+                .type   cpu_set_cpsr, STT_FUNC 
+cpu_set_cpsr:
+
+                mov     r1, lr
+                msr     cpsr_cxsf, r0
+                bx      r1
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_wfi, "ax"
+                .arm    
+
+@ void cpu_wfi (void);
+
+                .global cpu_wfi
+                .global spin1_wfi
+
+                .type   spin1_wfi, STT_FUNC 
+spin1_wfi:
+
+                .type   cpu_wfi, STT_FUNC 
+cpu_wfi:
+
+                mcr     p15, 0, r0, c7, c0, 4
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_lock, "ax"
+                .arm    
+
+@ uint sark_lock_get (uint lock);
+
+                .global sark_lock_get
+                .type   sark_lock_get, STT_FUNC 
+sark_lock_get:
+
+                mov     r12, #SYSCTL_BASE
+                add     r12, r12, r0, lsl #2
+
+                mrs     r0, apsr
+                orr     r1, r0, #IMASK_ALL
+                msr     cpsr_c, r1
+
+lg1:            ldr     r1, [r12, #0x100]
+                tst     r1, #0x80000000
+                bne     lg1
+
+                bx      lr
+
+
+@ void sark_lock_free (uint cpsr, uint lock);
+
+                .global sark_lock_free
+                .type   sark_lock_free, STT_FUNC 
+sark_lock_free:
+
+                mov     r12, #SYSCTL_BASE
+                add     r1, r12, r1, lsl #2
+                ldr     r1, [r1, #0x180]
+                msr     cpsr_c, r0
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_sema_raise, "ax"
+                .thumb  
+
+@ uint sema_raise (uchar *sema);
+
+                .global sark_sema_raise
+                .type   sark_sema_raise, STT_FUNC 
+sark_sema_raise:
+
+                push    {r4, lr}                @ Save return address
+                mov     r3, r0                  @ Arg to r3
+                mov     r0, #A_LOCK_SEMA        @ Get this lock
+                bl      sark_lock_get           @ Returns CPSR in r0
+
+                ldrb    r2, [r3, #0]            @ Increment the variable
+                add     r2, #1
+                strb    r2, [r3, #0]            @ Put back
+
+                mov     r1, #A_LOCK_SEMA        @ Free the lock
+                bl      sark_lock_free
+
+                mov     r0, r2                  @ Return post-inc value
+                pop     {r4, pc}
+
+
+                .section alib_sema_lower, "ax"
+                .thumb  
+
+@ uint sema_lower (uchar *sema);
+
+                .global sark_sema_lower
+                .type   sark_sema_lower, STT_FUNC 
+sark_sema_lower:
+
+                push    {r4, lr}                @ Save return address
+                mov     r3, r0                  @ Arg to r3
+                mov     r0, #A_LOCK_SEMA        @ Get this lock
+                bl      sark_lock_get           @ Returns CPSR in r0
+
+                ldrb    r2, [r3, #0]            @ Get the variable
+                cmp     r2, #0                  @ Test for zero
+                beq     lower1
+
+                sub     r1, r2, #1              @ Decrement if not
+                strb    r1, [r3, #0]            @ and put back
+
+lower1:         mov     r1, #A_LOCK_SEMA        @ Free lock
+                bl      sark_lock_free
+
+                mov     r0, r2                  @ Return pre-dec value
+                pop     {r4, pc}
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_memcpy, "ax"
+                .arm    
+
+@ void sark_mem_cpy (void *dest, const void *src, uint n);
+
+                .global sark_mem_cpy
+                .type   sark_mem_cpy, STT_FUNC 
+sark_mem_cpy:
+
+                subs    r2, r2, #1
+                ldrhsb  r3, [r1], #1
+                strhsb  r3, [r0], #1
+                bhs     sark_mem_cpy
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_strcpy, "ax"
+                .arm    
+
+@ void sark_str_cpy (char *dest, const char *src);
+
+                .global sark_str_cpy
+                .type   sark_str_cpy, STT_FUNC 
+sark_str_cpy:
+
+                ldrb    r2, [r1], #1
+                cmp     r2, #0
+                strb    r2, [r0], #1
+                bne     sark_str_cpy
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_word_set, "ax"
+                .arm    
+
+@ void sark_word_set (void *dest, uint data, uint n);
+
+                .global sark_word_set
+                .type   sark_word_set, STT_FUNC 
+sark_word_set:
+
+                mov     r3, r1                  @ Copy data to r3
+
+ws1:            subs    r2, r2, #16             @ Drop count by 16
+                stmcs   r0!, {r1, r3}           @ Fill 16 bytes...
+                stmcs   r0!, {r1, r3}           @
+                bcs     ws1                     @ Loop while >= 0
+
+                lsls    r2, r2, #29             @ Shift count to flags
+                stmcs   r0!, {r1, r3}           @ and fill remainder
+                stmmi   r0!, {r1}
+
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_word_cpy, "ax"
+                .arm    
+
+@ void copy_msg (msg_t *to, msg_t *from)
+
+                .global sark_msg_cpy
+                .type   sark_msg_cpy, STT_FUNC 
+sark_msg_cpy:
+
+                add     r0, r0, #4              @ Point past link word (to)
+                add     r1, r1, #4              @ Point past link word (from)
+                ldrh    r2, [r1, #0]            @ Get length (bytes)
+                add     r2, r2, #4              @ Bump length by 4 (len/sum)
+
+
+@ Fast copy for word aligned buffers. Byte count "n" need not
+@ be a multiple of 4 but it will be rounded up to be so.
+
+@ void sark_word_cpy (void *dest, const void *src, uint n)
+
+                .global sark_word_cpy
+                .type   sark_word_cpy, STT_FUNC 
+sark_word_cpy:
+
+                tst     r2, #3
+                bicne   r2, r2, #3
+                addne   r2, r2, #4
+
+                push    {r4, lr}
+
+                subs    r2, r2, #32
+                bcc     wc2
+
+wc1:            ldm     r1!, {r3, r4, r12, lr}
+                stm     r0!, {r3, r4, r12, lr}
+                ldm     r1!, {r3, r4, r12, lr}
+                stm     r0!, {r3, r4, r12, lr}
+                subs    r2, r2, #32
+                bcs     wc1
+
+wc2:            lsls    r12, r2, #28
+                ldmcs   r1!, {r3, r4, r12, lr}
+                stmcs   r0!, {r3, r4, r12, lr}
+                ldmmi   r1!, {r3, r4}
+                stmmi   r0!, {r3, r4}
+
+                lsls    r12, r2, #30
+                ldrcs   r3, [r1], #4
+                strcs   r3, [r0], #4
+
+                pop     {r4, pc}
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_rand, "ax"
+                .arm    
+
+@ uint sark_rand (void);
+
+                .global sark_rand
+                .global sark
+                .type   sark_rand, STT_FUNC 
+sark_rand:
+
+                ldr     r3, =sark + SARK_RANDOM
+                ldmia   r3, {r0, r1}
+                tst     r1, r1, lsr #1
+                movs    r2, r0, rrx
+                adc     r1, r1
+                eor     r2, r2, r0, lsl #12
+                eor     r0, r2, r2, lsr #20
+                stmia   r3, {r0, r1}
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_srand, "ax"
+                .thumb  
+
+@ void sark_srand (uint val);
+
+                .global sark_srand
+                .global sark
+                .type   sark_srand, STT_FUNC 
+sark_srand:
+
+                ldr     r2, =sark + SARK_RANDOM
+                mov     r1, #0
+                stmia   r2!, {r0, r1}
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_delay, "ax"
+                .thumb  
+
+@ void sark_delay_us (uint delay);
+
+                .global sark_delay_us
+                .global sark
+                .type   sark_delay_us, STT_FUNC 
+sark_delay_us:
+
+                ldr     r1, =sark + SARK_CPU_CLK @ Get clock speed to r1
+                ldrh    r1, [r1]
+                mul     r1, r0                  @ Multiply by delay
+                lsr     r0, r1, #2              @ Shift to divide by 4
+
+delay1:         sub     r0, #1                  @ Loop takes 4 clocks
+                bcs     delay1
+
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_chksum, "ax"
+                .arm    
+
+@ Compute 4-bit 1's complement checksum of 64/32 bits. Sum is returned in
+@ top 4 bits of result & other bits are zero.
+
+@ uint chksum_64 (uint a, uint b)
+@ uint chksum_32 (uint a)
+
+                .global chksum_64
+                .type   chksum_64, STT_FUNC 
+chksum_64:
+
+                adds    r0, r0, r1              @ s = a + b
+                addcs   r0, r0, #1              @ Add back carry
+
+
+                .global chksum_32
+                .type   chksum_32, STT_FUNC 
+chksum_32:
+
+                adds    r0, r0, r0, lsl #16     @ s = s + s << 16;
+                addcs   r0, r0, #0x00010000     @ Add back carry
+                bic     r0, r0, #0x0000ff00     @ Ensure no carry in
+                adds    r0, r0, r0, lsl #8      @ s = s + s << 8
+                addcs   r0, r0, #0x01000000     @ Add back carry
+                bic     r0, r0, #0x00ff0000     @ Ensure no carry in
+                adds    r0, r0, r0, lsl #4      @ s = s + s << 4
+                addcs   r0, r0, #0x10000000     @ Add back carry
+                and     r0, r0, #0xf0000000     @ Isolate checksum
+                eor     r0, r0, #0xf0000000     @ Complement top 4
+                bx      lr
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_div10, "ax"
+                .arm    
+
+@ divmod_t sark_div10 (uint n);
+
+                .global sark_div10
+                .type   sark_div10, STT_FUNC 
+sark_div10:
+
+                .ifdef  DIV10_VIR        @ value_in_regs version (not used)
+
+                sub     r1, r0, #10
+                sub     r0, r0, r0, lsr #2
+                add     r0, r0, r0, lsr #4
+                add     r0, r0, r0, lsr #8
+                add     r0, r0, r0, lsr #16
+                mov     r0, r0, lsr #3
+                add     r2, r0, r0, lsl #2
+                subs    r1, r1, r2, lsl #1
+                addpl   r0, r0, #1
+                addmi   r1, r1, #10
+                bx      lr
+                .else       
+                sub     r2, r1, #10             @ keep (x-10) for later
+                sub     r1, r1, r1, lsr #2
+                add     r1, r1, r1, lsr #4
+                add     r1, r1, r1, lsr #8
+                add     r1, r1, r1, lsr #16
+                mov     r1, r1, lsr #3
+                add     r3, r1, r1, lsl #2
+                subs    r2, r2, r3, lsl #1      @ calc (x-10) - (x/10)*10
+                addpl   r1, r1, #1              @ fix-up quotient
+                addmi   r2, r2, #10             @ fix-up remainder
+                stm     r0, {r1, r2}
+                bx      lr
+                .endif      
+
+@------------------------------------------------------------------------------
+
+@ IRQ_HANDLER sark_int_han (void);
+
+                .section alib_sark_int, "ax"
+                .arm    
+
+                .global sark_int_han
+                .global sark_int
+
+                .type   sark_int_han, STT_FUNC 
+sark_int_han:
+
+                push    {r0-r3, r12, lr}        @ Save lr and working regs
+                sub     r0, lr, #4              @ Return address to r0
+
+                mrs     r12, spsr               @ Get SPSR_irq to r12
+                msr     cpsr_c, #MODE_SYS       @ Go to SYS mode, interrupts enabled
+
+                push    {r12, lr}               @ Save SPSR_irq and LR_sys
+
+                bl      sark_int                @ Call main handler
+
+                pop     {r12, lr}               @ Restore SPSR_irq & LR_sys
+
+                msr     cpsr_c, #MODE_IRQ+IMASK_IRQ @ Back to IRQ mode, IRQ disabled
+                msr     spsr_cxsf, r12          @ Restore SPSR_irq
+
+                mov     r0, #VIC_BASE           @ Tell VIC we are done
+                str     r0, [r0, #VIC_VADDR]
+
+                pop     {r0-r3, r12, lr}        @ Restore working regs and lr
+
+
+@ IRQ_HANDLER null_int_han (void);
+
+                .global null_int_han
+
+                .type   null_int_han, STT_FUNC 
+null_int_han:
+
+                subs    pc, lr, #4
+
+
+@------------------------------------------------------------------------------
+
+@ void schedule (uchar event_id, uint arg0, uint arg1)
+
+                .section alib_schedule, "ax"
+                .arm    
+
+                .global schedule
+                .global schedule_sysmode
+                .weak   schedule_sysmode
+
+                .type   schedule, STT_FUNC 
+schedule:
+
+                push    {r12, lr}               @ save r12 and lr_irq
+
+                mrs     r12, cpsr               @ Go to SYS mode
+                bic     lr, r12, #0x1f
+                orr     lr, lr, #MODE_SYS
+                msr     cpsr_c, lr
+
+                push    {r12, lr}               @ save lr_sys and cpsr_c
+
+                bl      schedule_sysmode
+
+                pop     {r12, lr}               @ restore lr_sys and cpsr_c
+                msr     cpsr_c, r12             @ back to IRQ mode
+
+                pop     {r12, lr}               @ restore r12 and lr_irq
+                bx      lr                      @ return using lr_irq
+
+
+@------------------------------------------------------------------------------
+
+                .section alib_rts, "ax"
+                .thumb  
+
+@ Dummy functions. All drop through to "bx lr"
+
+                .global sark_wait
+                .weak   sark_wait
+                .type   sark_wait, STT_FUNC 
+sark_wait:
+
+                .global sark_config
+                .weak   sark_config
+                .type   sark_config, STT_FUNC 
+sark_config:
+
+                bx      lr
+
+@ void bx (uint addr)
+
+                .global sark_bx
+                .type   sark_bx, STT_FUNC 
+sark_bx:
+                bx      r0                      @ Branch to r0
+
+@------------------------------------------------------------------------------
+
+                .section alib_t1_case_uqi, "ax"
+                .thumb  
+
+@ This is a support routine from the GNU library (rewritten slightly
+@ for efficiency). There is a nicer 32 bit version but GCC won't link
+@ to it correctly.
+
+                .global __gnu_thumb1_case_uqi
+
+                .type   __gnu_thumb1_case_uqi, STT_FUNC 
+__gnu_thumb1_case_uqi:
+
+                mov     r12, r1                 @ Save r1 in scratch reg
+                mov     r1, lr                  @ Copy return address
+                sub     r1, #1                  @ and make even
+                ldrb    r1, [r1, r0]            @ Get a byte from table
+                lsl     r1, #1                  @ Multiply by two and
+                add     lr, r1                  @ point to target code
+                mov     r1, r12                 @ Restore r1
+                bx      lr                      @ and go to code
+
+@		code32
+@		bic	r12, lr, #1		; Point to table
+@		ldrb	r12, [r12, r0]		; Read offset from table
+@		add	pc, lr, r12, lsl #1	; Form new PC
+
+
+@------------------------------------------------------------------------------
+
+@ APLX Loader
+
+@ Format of APLX table - each entry except last is 4 words. First word
+@ is an opcode - ACOPY, RCOPY, FILL, EXEC, END. Next three words are
+@ operands. Copy/Fill always rounds up to multiple of 32 bytes and
+@ zero length is not sensible.
+
+@	APLX_ACOPY, APLX_RCOPY
+@	Dest address
+@	Srce address (relative to start of this entry if RCOPY)
+@	Length (bytes)
+
+@	APLX_FILL
+@	Dest address
+@	Length (bytes)
+@	Fill data
+
+@	APLX_EXEC
+@	Program counter
+@	(Unused)
+@	(Unused)
+
+@	APLX_END (or invalid opcode)
+@	(Unused)
+@	(Unused)
+@	(Unused)
+
+@ void sark_aplx (uint *table, uint app_id)
+
+                .section alib_aplx, "ax"
+                .thumb  
+
+                .global sark_aplx
+                .type   sark_aplx, STT_FUNC 
+sark_aplx:
+
+                push    {r1, r4-r7, lr}         @ Save link, r1, r4-r7
+                ldr     r1, aplx_buffer         @ Get buffer to r1
+                adr     r6, aplx_loader         @ r6 -> loader code
+                mov     r7, #APLX_BUF_SIZE      @ Move 64 bytes...
+
+aplx_l0:        ldm     r6!, {r2-r5}            @ ... 16 at a time
+                stm     r1!, {r2-r5}
+                sub     r7, #16
+                bne     aplx_l0
+
+                mov     r4, r0                  @ Table pointer to r4
+                sub     r1, #APLX_BUF_SIZE-1    @ r1 -> load point + 1
+                bx      r1
+
+                .balign  4, 0 
+
+aplx_buffer:    .word   APLX_BUFFER
+
+@ Come here with table address in r4. Following section of code must
+@ fit in 64 bytes (currently 60)
+
+aplx_loader:    ldm     r4!, {r0-r3}            @ Get opcode & operands
+
+                cmp     r0, #APLX_ACOPY         @ Copy absolute
+                beq     aplx_copy
+                cmp     r0, #APLX_RCOPY         @ Copy relative
+                beq     aplx_rcopy
+                cmp     r0, #APLX_FILL          @ Fill
+                beq     aplx_fill
+                cmp     r0, #APLX_EXEC          @ Execute
+                beq     aplx_exec
+
+                pop     {r1, r4-r7, pc}         @ Restore & return
+
+aplx_rcopy:     add     r2, r4                  @ Copy relative
+                sub     r2, #APLX_ENTRY_SIZE    @ Reduce by table entry size
+
+aplx_copy:      ldm     r2!, {r0, r5-r7}        @ Copy absolute
+                stm     r1!, {r0, r5-r7}        @ r1 -> to
+                ldm     r2!, {r0, r5-r7}        @ r2 -> from
+                stm     r1!, {r0, r5-r7}        @ r3 = length
+                sub     r3, #32
+                bhi     aplx_copy
+                b       aplx_loader
+
+aplx_fill:      movs    r5, r3                  @ Fill
+                movs    r6, r3                  @ r1 -> to
+                movs    r7, r3                  @ r2 = length
+aplx_l1:        stm     r1!, {r3, r5-r7}        @ r3 = data
+                stm     r1!, {r3, r5-r7}
+                sub     r2, #32
+                bhi     aplx_l1
+                b       aplx_loader
+
+aplx_exec:      ldr     r0, [sp, #0]            @ Get app_id to r0
+                blx     r1                      @ Exec absolute
+                b       aplx_loader             @ r1 = address
+
+
+                .balign  4, 0 
+
+@------------------------------------------------------------------------------
+
+@ This section is placed last, after all other code to be copied to ITCM.
+@ It forces the length of the section to be a multiple of 4 bytes as it
+@ was previously Thumb aligned and this caused problems in copying the RW
+@ data that followed. This is a bodge!
+
+                .section _alib_align, "ax"
+                .arm    
+
+                .word   DEAD_WORD
+
+@------------------------------------------------------------------------------
+

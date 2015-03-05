@@ -1,0 +1,27 @@
+iaf_psc_exp.c:void synapse_dynamics (register uint32_t n) { current[n] *= p11[n]; }
+neuron.c:decay_t  p11 [MAX_NEURON_SIZE];
+neuron.c:  if (!(configure_p11 (n, a, flags))) {
+neuron.c:  // p11_ex = exp (-h/tau_ex);
+neuron.c:  // p11_in = exp (-h/tau_in); which equals above
+neuron.c:  hack_vector ((uint32_t*)p11,     n,  2605029347); // e(-0.5)  ~ 0.606..
+neuron.c:  // p21 = tau/(C*(1 -tau/tau_ex)) * p11_ex * (1 - exp (h*(1/tau_ex - 1/tau)))
+synapses.c:extern decay_t  p11 [MAX_NEURON_SIZE];
+synapses.c:static inline decay_t p11_ex (index_t n) { return (p11 [n]); }
+synapses.c:static inline decay_t p11_in (index_t n) { return (p11 [n]); }
+synapses.c:static inline decay_t p21_ex (index_t n) { return (p11_ex (n)); }
+synapses.c:static inline decay_t p21_in (index_t n) { return (p11_in (n)); }
+synapses.c:static inline decay_t p22_ex (index_t n) { return (p11_ex (n)); }
+synapses.c:static inline decay_t p22_in (index_t n) { return (p11_in (n)); }
+synapses.c:int configure_p11 (size_t n, address_t a, uint32_t flags)
+synapses.c:{ return (vector_copied((uint32_t*)p11, n, a, flags)); }
+synapses.c:	      p11_ex (n) >> 16, p11[n]);
+synapses.c:    = decay_s1615 (current [ex1_offset (n)], p11_ex (n));
+synapses.c:      = decay_s1615 (current [in1_offset (n)], p11_in (n));
+synapses.c:    = decay_s1615 (current [ex1_offset (n)], p11_ex (n));
+synapses.c:      = decay_s1615 (current [in1_offset (n)], p11_in (n));
+synapses.c:// p11x = p22x = exp (-h/tau_x)
+synapses.c:// p11i = p22i = exp (-h/tau_i)
+synapses.c:// p21x = h * p11x
+synapses.c:// p21i = h * p11i
+synapses.c:// y1x *= p11x
+synapses.c:// y1i *= p11i

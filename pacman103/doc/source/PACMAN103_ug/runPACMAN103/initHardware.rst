@@ -1,0 +1,6 @@
+
+Initialise SpiNNaker Hardware
++++++++++++++++++++++++++++++
+
+<TODO>
+

@@ -1,0 +1,101 @@
+SpiNNaker Package 103
+*********************
+
+This file contains instructions for installation of the tools on Fedora 18 and
+above.  This has been tested on Fedora 20 on a 64-bit machine, but should be
+applicable to 32-bit versions of Fedora as well.
+
+Installation
+************
+To install the Spinnaker Package on Fedora (assuming you have already
+extracted the tar.gz file):
+1) Install the Required Dependencies
+2) Decide if you would like to install any of the Graphics Dependencies or
+Development Dependencies, and if so, install them
+3) Install the Spinnaker Package
+
+Required Dependencies
+*********************
+ - Python 2.7
+      * From a terminal, as root, run
+            yum install python
+      
+ - numpy
+      * From a terminal, as root, run
+            yum install numpy
+
+ - setuptools
+      * From a terminal, as root, run
+            yum install python-setuptools
+
+ 
+ - PyNN 0.7
+      * Go to: https://pypi.python.org/pypi/PyNN/
+      * Download and extract PyNN-0.7.5.tar.gz
+      * From the command line in the extracted directory, as root, run
+            python setup.py install
+
+ - Graphviz
+      * From a terminal, as root, run
+            yum install graphviz
+        If you encounter a package conflict with vim-minimal, you may have to
+        uninstall this first.  Do do this, you must be able to be root without
+        sudo.  The install can then be done as follows:
+            su -
+            (type in root password)
+            yum remove vim-minimal
+            (will be prompted to remove sudo - note that this also removes your
+             sudoers file, so back it up!)
+            yum install graphviz
+            yum install sudo
+        You should now have both graphviz and sudo support again.  Note that you
+        may have to reinstate your previous sudoers file.
+
+Graphics Dependencies
+*********************
+If you wish to use matplotlib and/or scipy (e.g. pylab), you will need to
+install the following:
+
+ - matplotlib
+      * From a terminal, as root, run
+            yum install python-matplotlib
+
+If you wish to enable the visualiser (i.e. set enabled = True in the
+[Visualiser] section of the .pacman.cfg file), you will need to install the
+following (found in the Graphics-Visualiser folder):
+ - PyGTK
+      * From a terminal, as root, run
+            yum install pygtk2
+
+ - PyCha
+      * From a terminal, as root run
+            yum install python-pycha
+
+Development Dependencies
+************************
+The following dependencies are required if you are planning on compiling any
+new c code to run on SpiNNaker:
+ - 32-bit libc (if on a 64-bit system):
+     * From a terminal, as root, run
+           yum install glibc.i686
+           
+ - CodeSourcery GCC ARM EABI Compiler
+     * Download https://spinnaker.cs.man.ac.uk/tiki-download_wiki_attachment.php?attId=34&page=SpiNNaker%20Workshop%20August%202013&download=y
+     * Extract the downloaded archive
+     * Add the "bin" directory within the installed location to the PATH 
+       enviroment variable in .profile in your home directory e.g. append the
+       following:
+           export PATH=$PATH:<install-location>/bin
+       where <install-location> is the place where you extracted the file.
+
+  - Perl and Perl TK
+     * From a terminal, run
+           sudo apt-get install perl perl-Tk perl-Term-ReadLine-Gnu
+
+Installing SpiNNaker Package
+****************************
+ * From a terminal where the package is extracted, as root, run
+       python setup-pyNN.py install
+       
+ * From a terminal, as a regular user, run,
+       python setup.py develop --user

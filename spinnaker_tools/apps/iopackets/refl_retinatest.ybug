@@ -1,0 +1,9 @@
+
+app_stop 16
+
+iptag . 17894 1
+
+app_load refl_retinatest.aplx all 1-16 16
+sleep 1
+app_sig all 16 sync0
+

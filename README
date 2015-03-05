@@ -1,0 +1,44 @@
+SpiNNaker Package 103
+*********************
+
+This file gives details about the Spinnaker Package.
+
+Installation
+************
+Detailed instructions for installation of the Spinnaker Package are given in 
+the following files:
+    * README.fedora - instructions tested on Fedora 20 64-bit
+    * README.ubuntu - instructions tested on Ubuntu 14.04 64-bit
+    * README.win32  - instructions tested on Windows 8 64-bit
+Note that although the instructions have been tested on these systems, it is
+likely that they will work similarly on other operating systems as well.
+
+PACMAN Configuration
+********************
+The PACMAN tool configuration must be set up before you run anything with
+PACMAN on SpiNNaker.  Upon installation of the SpiNNaker tools, a new file
+called .pacman.cfg will have been created in your home directory.  Please
+edit this as follows:
+
+ * Set
+       machineName
+   to the IP address of your SpiNNaker board
+   
+ * Set
+       version
+   to the version of your SpiNNaker board (e.g. 5 if it is a Spinn-5 board, or
+   3 if it is a Spinn-3 board - this is often printed on the board itself, but
+   please ask if you are unsure).
+
+
+Booting the board
+*****************
+The board needs to be booted before any model can run on it. 
+In order to do that go into the directory where you extracted the spinnaker 
+package and run:
+    python boot.py
+    
+This will boot the board currently set as "machineName" in your pacman.cfg file.
+If the board is already booted, you will be told the version of SCAMP that it
+has been booted with.  This should be 1.30.  If it isn't, please reset the board
+and boot it again.

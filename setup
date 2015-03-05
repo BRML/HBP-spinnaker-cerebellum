@@ -1,0 +1,5 @@
+set -a
+APP_OUTPUT_DIR=$PWD/binaries
+cd spinnaker_tools
+source ./setup
+cd ..

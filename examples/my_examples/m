@@ -1,0 +1,81 @@
+# coding: utf-8
+import IPython
+from pylab import *
+import pyNN.spiNNaker as p
+p.setup(timestep=1.0, min_delay = 1.0, max_delay = 32.0)
+virtual_chip_coords = {'x': 0, 'y': 5}
+connected_chip_coords = {'x': 0, 'y': 0}
+link=3
+tau = 120e-3
+
+cell_params_lif = {'cm'        : 0.25, # nF
+                     'i_offset'  : 0.0,
+                     'tau_m'     : 20.0,
+                     'tau_refrac': 2.0,
+                     'tau_syn_E' : 5.0,
+                     'tau_syn_I' : 5.0,
+                     'v_reset'   : -70.0,
+                     'v_rest'    : -65.0,
+                     'v_thresh'  : -60.0
+                     }
+
+
+extparams={'virtual_chip_coords':virtual_chip_coords,
+                'connected_chip_coords':connected_chip_coords,
+                'connected_chip_edge':link,
+                'kernel_amplitude': sqrt(2/tau),
+                'output_scale' : 10.,
+                'decay_factor': exp(-tau/tau),
+                'sample_time' : tau * 1e3,
+                'threshold' : 0} # 60 ms
+
+myopop=p.Population(100,p.MyoRobotMotorControl,extparams,label='myoext')
+
+
+#extpop=p.Population(1,p.ExternalSpikeSource,{'virtual_chip_coords': {'x':254,'y':255}},label='ext spikes')
+
+# fefffe80.00000100
+# set setpoint: @FEFFFE80.00000100
+# set setpoint: @FEFFFE80.00000000
+testpop=p.Population(200, p.IF_curr_exp, cell_params_lif, label='ifcurr')
+testpop.record()
+
+inppop=p.Population(2,p.SpikeSourcePoisson,{'rate':[80,20]})
+inp2pop=p.Population(1,p.SpikeSourcePoisson,{'rate':5})
+proj=p.Projection(inppop,myopop,p.OneToOneConnector(weights=1.00,delays=1.0))
+proj2=p.Projection(inp2pop,myopop,p.OneToOneConnector(weights=1.0,delays=1.0))
+
+#projout=p.Projection(myopop,testpop,p.OneToOneConnector(weights=0.5,delays=1.0))
+
+
+#emptypop = p.Population(200, p.IF_curr_exp, cell_params_lif, label='dummy')
+#dummyproj = p.Projection(emptypop, testpop, p.OneToOneConnector(weights=1.0,delays=1.0))
+
+inppop.record()
+#myopop.record()
+
+pois1 = p.Population(100,p.SpikeSourceRemote,{'max_rate':100,'overlap':0.2})
+
+pois1.record()
+
+errorprop=p.Projection(myopop,pois1,p.OneToOneConnector(weights=1.0,delays=1.0))
+
+p.run(10000)
+#myospikes=myopop.getSpikes()
+inpspikes=inppop.getSpikes()
+
+testspikes=testpop.getSpikes()
+plot(inpspikes[:,0],inpspikes[:,1],"s")
+#plot(testspikes[:,0],testspikes[:,1],"s")
+
+spk=pois1.getSpikes()
+
+figure()
+plot(spk[:,0],spk[:,1],"s")
+plot(testspikes[:,0],testspikes[:,1],"s")
+
+figure()
+hist(spk[:,1],bins=32)
+
+IPython.embed()
+show()

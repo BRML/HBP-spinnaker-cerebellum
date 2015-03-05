@@ -1,0 +1,334 @@
+@
+@ Auto-generated from "../include/sark.h" - Thu Aug 21 16:51:54 2014
+@
+@------------------------------------------------------------------------------
+@
+@ sark.h	    Header file describing the SARK runtime environment
+@
+@ Copyright (C)    The University of Manchester - 2009-2013
+@
+@ Author           Steve Temple, APT Group, School of Computer Science
+@ Email            temples@cs.man.ac.uk
+@
+@------------------------------------------------------------------------------
+
+                .ifndef  __SARK_H__
+                .ifndef  __SPINNAKER_H__
+                .endif      
+
+@------------------------------------------------------------------------------
+
+                .equ    SARK_EVENT, 1                       @!< Defined to link to "event"
+
+@------------------------------------------------------------------------------
+
+@ SARK stack defaults
+@ Note that default stack top and length are specified in the linker script.
+@ The sizes below define individual sizes for three modes of four used by
+@ SARK. The sizes of individual stacks and the stack top can be modified at
+@ startup by using "sark_config". The size of the SYS mode stack is the
+@ difference between the sum of the three stack sizes given here and the
+@ overall stack length from the linker script. The default is for a stack
+@ length of 2048 and hence a SYS stack of 1152 bytes. All of these values
+@ must be a multiple of 4!
+
+                .equ    SVC_STACK, 384                     @!< Size in bytes of SVC stack
+                .equ    IRQ_STACK, 256                     @!< Size in bytes of IRQ stack
+                .equ    FIQ_STACK, 256                     @!< Size in bytes of FIQ stack
+
+@ SARK configuration defaults - these can be modified at SARK
+@ start-up using "sark_config"
+
+                .equ    NUM_SDP_MSGS, 4                       @!< Number of SDP messages for SARK
+                .equ    SARK_SLOT, 15                      @!< VIC slot for SARK interrupt
+                .equ    INIT_EVENTS, 16                      @!< Number of events initially allocated
+
+                .equ    DEAD_WORD, 0xdeaddead              @!< Stack fill value
+
+@------------------------------------------------------------------------------
+
+                .ifdef  __GNUC__
+
+                .endif      
+
+@------------------------------------------------------------------------------
+
+@ Useful macros...
+
+                .ifndef  ntohs
+
+                .endif      
+
+@------------------------------------------------------------------------------
+
+@ APLX definitions
+
+                .equ    APLX_ACOPY, 1                       @!< Absolute copy
+                .equ    APLX_RCOPY, 2                       @!< Relative copy
+                .equ    APLX_FILL, 3                       @!< Fill memory
+                .equ    APLX_EXEC, 4                       @!< Execute
+
+                .equ    APLX_END, 0xff                    @!< End marker (rarely used)
+
+                .equ    APLX_ENTRY_SIZE, 16                      @!< Bytes per table entry
+                .equ    APLX_BUF_SIZE, 64                      @!< Size of APLX loader code
+
+                .equ    APLX_BUFFER, (ITCM_TOP - APLX_BUF_SIZE)
+
+@------------------------------------------------------------------------------
+
+@ IPTAG definitions
+
+                .equ    TAG_NONE, 255                     @!< Invalid tag/transient request
+                .equ    TAG_HOST, 0                       @!< Reserved for host
+
+@------------------------------------------------------------------------------
+
+@ Definition of range of router MC entries which may be allocated
+
+                .equ    RTR_ALLOC_FIRST, 1                       @!< Must be > 0
+                .equ    RTR_ALLOC_LAST, MC_TABLE_SIZE           @!< Must be <= MC_TABLE_SIZE
+
+                .equ    RTR_ALLOC_MAX, (RTR_ALLOC_LAST - RTR_ALLOC_FIRST)
+
+@ Flags to sark_xalloc (etc)
+
+                .equ    ALLOC_LOCK, 1                       @!< Lock this operation
+                .equ    ALLOC_ID, 2                       @!< Use supplied AppID
+
+@------------------------------------------------------------------------------
+
+                .equ    A_LOCK_SEMA, 5
+
+@------------------------------------------------------------------------------
+
+@------------------------------------------------------------------------------
+
+                .equ    A_RTE_RESET, 1                       @!< Branch through zero
+                .equ    A_RTE_UNDEF, 2                       @!< Undefined instruction
+                .equ    A_RTE_SVC, 3                       @!< Undefined SVC or no handler
+                .equ    A_RTE_PABT, 4                       @!< Prefetch abort
+                .equ    A_RTE_DABT, 5                       @!< Data abort
+                .equ    A_RTE_IRQ, 6                       @!< Unhandled IRQ
+                .equ    A_RTE_FIQ, 7                       @!< Unhandled FIQ
+                .equ    A_RTE_VIC, 8                       @!< Unconfigured VIC vector
+
+@------------------------------------------------------------------------------
+
+@ Various enumerated types, etc
+
+                .equ    A_STATE_RTE, 2
+
+                .equ    EVENT_COUNT, 6
+
+@------------------------------------------------------------------------------
+
+@ LED definitions - pass these to "sark_led_set"
+
+@------------------------------------------------------------------------------
+
+@------------------------------------------------------------------------------
+
+@------------------------------------------------------------------------------
+
+@ SARK I/O stream identifiers
+
+@------------------------------------------------------------------------------
+
+@ SCP Command and return codes
+
+                .equ    CMD_VER, 0                       @!< Return version/core info
+                .equ    CMD_RUN, 1                       @!< Run at PC (Deprecated)
+                .equ    CMD_READ, 2                       @!< Read memory
+                .equ    CMD_WRITE, 3                       @!< Write memory
+                .equ    CMD_APLX, 4                       @!< Run via APLX (Deprecated)
+                .equ    CMD_FILL, 5                       @!< Fill memory
+
+@ Following for monitors only
+
+                .equ    CMD_REMAP, 16                      @!< Remap application core
+                .equ    CMD_LINK_READ, 17                      @!< Read neighbour memory
+                .equ    CMD_LINK_WRITE, 18                      @!< Write neighbour memory
+                .equ    CMD_AR, 19                      @!< Application core reset
+
+                .equ    CMD_NNP, 20                      @!< Send broadcast NN packet
+                .equ    CMD_P2PC, 21                      @!< Start P2P address configuration
+                .equ    CMD_SIG, 22                      @!< Send signal to apps
+                .equ    CMD_FFD, 23                      @!< Send flood-fill data
+
+                .equ    CMD_AS, 24                      @!< Application core APLX start
+                .equ    CMD_LED, 25                      @!< Control LEDs
+                .equ    CMD_IPTAG, 26                      @!< Configure IPTags
+                .equ    CMD_SROM, 27                      @!< Read/write/erase serial ROM
+
+                .equ    CMD_ALLOC, 28                      @!< Memory allocation
+                .equ    CMD_RTR, 29                      @!< Router control
+
+@ 48-63 reserved for BMP
+
+                .equ    CMD_TUBE, 64                      @!< Tube output
+
+@ Return codes
+
+                .equ    RC_OK, 0x80                    @!< Command completed OK
+                .equ    RC_LEN, 0x81                    @!< Bad packet length
+                .equ    RC_SUM, 0x82                    @!< Bad checksum
+                .equ    RC_CMD, 0x83                    @!< Bad/invalid command
+                .equ    RC_ARG, 0x84                    @!< Invalid arguments
+                .equ    RC_PORT, 0x85                    @!< Bad port number
+                .equ    RC_TIMEOUT, 0x86                    @!< Timeout
+                .equ    RC_ROUTE, 0x87                    @!< No P2P route
+                .equ    RC_CPU, 0x88                    @!< Bad CPU number
+                .equ    RC_DEAD, 0x89                    @!< SHM dest dead
+                .equ    RC_BUF, 0x8a                    @!< No free SHM buffers
+                .equ    RC_P2P_NOREPLY, 0x8b                    @!< No reply to open
+                .equ    RC_P2P_REJECT, 0x8c                    @!< Open rejected
+                .equ    RC_P2P_BUSY, 0x8d                    @!< Dest busy
+                .equ    RC_P2P_TIMEOUT, 0x8e                    @!< Dest died?
+                .equ    RC_PKT_TX, 0x8f                    @!< Pkt Tx failed
+
+@ Memory size types
+
+                .equ    TYPE_BYTE, 0                       @!< Specifies byte access
+                .equ    TYPE_HALF, 1                       @!< Specifies short (16-bit) access
+                .equ    TYPE_WORD, 2                       @!< Specifies word (32-bit) access
+
+@------------------------------------------------------------------------------
+
+@ Misc typedefs
+
+@------------------------------------------------------------------------------
+
+@ SDP messages
+
+                .equ    PORT_SHIFT, 5                       @!< Port is in top 3 bits
+                .equ    PORT_MASK, 0xe0                    @!< Port is in top 3 bits
+                .equ    CPU_MASK, 0x1f                    @!< CPU is in bottom 5 bits
+
+                .equ    PORT_ETH, 255                     @!< Special to indicate Ethernet
+
+                .equ    SDP_BUF_SIZE, 256                     @!< SDP data buffer capacity
+
+@ sdp_hdr_t (mandatory)
+
+@ cmd_hdr_t (optional)
+
+@ user data (optional)
+
+@ Legacy definitions...
+
+@------------------------------------------------------------------------------
+
+@ Heap data structures
+
+@------------------------------------------------------------------------------
+
+@ Struct "sark_vec" containing ARM exception vectors, etc
+
+@------------------------------------------------------------------------------
+
+@ For "sark_alib.s" (maintain sync with vcpu_t)
+
+                .equ    VCPU_SIZE, 128                     @!< Size of vcpu_t
+                .equ    VCPU_RT_CODE, 44                      @!< Offset of rt_code
+                .equ    VCPU_CPU_FLAGS, 45                      @!< Offset of cpu_flags
+                .equ    VCPU_CPU_STATE, 46                      @!< Offset of cpu_state
+                .equ    VCPU_APP_ID, 47                      @!< Offset of app_id
+
+@------------------------------------------------------------------------------
+
+@ Events
+
+                .equ    SARK_MSG_INT, (INT0_INT)              @!< Used for SARK to APP messaging
+                .equ    SARK_SIG_INT, (INT1_INT)              @!< Used for SARK to APP signalling
+
+@!< (or 0 if at head of Q)
+@------------------------------------------------------------------------------
+
+@
+
+                .equ    SARK_VIRT_CPU, 0                       @!< For "sark_alib.s" (maintain sync with sark_data_t))
+                .equ    SARK_RANDOM, 8                       @!< For "sark_alib.s" (maintain sync with sark_data_t))
+                .equ    SARK_CPU_CLK, 48                      @!< For "sark_alib.s" (maintain sync with sark_data_t))
+
+@------------------------------------------------------------------------------
+
+@ System RAM definitions
+
+                .equ    SV_SSIZE, 32                      @!< SROM data size
+                .equ    SV_USIZE, 96                      @!< Uninitialised size
+                .equ    SV_ISIZE, 128                     @!< Initialised to 0
+                .equ    SV_VSIZE, 32                      @!< Reset vectors
+                .equ    SV_RSIZE, 64                      @!< Random in SysRAM
+                .equ    SV_SIZE, 0x1000                  @!< Everything fits in this!
+
+                .equ    SV_SROM, (SYSRAM_TOP - SV_SSIZE) @!< e5007fe0
+                .equ    SV_UBASE, (SV_SROM - SV_USIZE)    @!< e5007f80
+                .equ    SV_IBASE, (SV_UBASE - SV_ISIZE)   @!< e5007f00
+                .equ    SV_SV, SV_IBASE                @!< e5007f00
+
+                .equ    SYS_BOOT, 256                     @!< Boot space size
+                .equ    SYS_USER_TOP, (SYSRAM_TOP - SV_SIZE)  @!< e5007000 (sysram_top)
+                .equ    SYS_USER_BASE, (SYSRAM_BASE + SYS_BOOT) @!< e5000100 (sysram_base)
+
+                .equ    SV_VECTORS, (SV_IBASE - SV_VSIZE)   @!< e5007ee0
+                .equ    SV_RANDOM, (SV_VECTORS - SV_RSIZE) @!< e5007ea0
+
+                .equ    SV_VCPU, SYS_USER_TOP            @!< e5007000
+                .equ    SV_SPARE, (SV_VCPU + NUM_CPUS * VCPU_SIZE) @!< e5007900
+                .equ    SPARE_SIZE, (SV_RANDOM - SV_SPARE)  @!<
+
+                .equ    SROM_FLAG_BASE, (SV_SROM)               @!< e5007fe0
+                .equ    STATUS_MAP_BASE, (SV_UBASE)              @!< e5007f80
+                .equ    RST_BLOCK_BASE, (SV_VECTORS)            @!< f5007ee0
+
+@ Bits in srom_data->flags
+
+                .equ    SRF_PRESENT, 0x8000                  @!< SROM present
+                .equ    SRF_HW_VER, 0x00f0                  @!< Hardware version
+                .equ    SRF_PHY_INIT, 0x0008                  @!< Init PHY on startup
+                .equ    SRF_PHY_RST, 0x0004                  @!< Reset PHY on startup
+                .equ    SRF_PHY_WAIT, 0x0002                  @!< Wait for PHY up on startup
+                .equ    SRF_ETH, 0x0001                  @!< Ethernet present
+                .equ    SRF_NONE, 0x0000                  @!< None of the above
+
+@ Pointers to useful bits of system RAM
+
+@ "sv_vcpu" points to base of array of "vcpu_t"
+
+@------------------------------------------------------------------------------
+
+@ Routines exported by SARK - sark_alib.s
+
+@------------------------------------------------------------------------------
+
+@ Routines exported by SARK - sark_base.c
+
+@------------------------------------------------------------------------------
+
+@ Routines exported by SARK - sark_io.c
+
+@------------------------------------------------------------------------------
+
+@ Routines exported by SARK - sark_alloc.c
+
+@------------------------------------------------------------------------------
+
+@ Routines exported by SARK - sark_hw.c
+
+@------------------------------------------------------------------------------
+
+@ Routines exported by SARK - sark_event.c
+
+@------------------------------------------------------------------------------
+
+@ Routines exported by SARK - sark_timer.c
+
+@------------------------------------------------------------------------------
+
+@ Various bits of global data
+
+@------------------------------------------------------------------------------
+
+                .endif      
+

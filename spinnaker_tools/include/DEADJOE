@@ -1,0 +1,37 @@
+
+*** These modified files were found in JOE when it aborted on Thu Oct  9 19:13:47 2014
+*** JOE was aborted because the terminal closed
+
+*** File '(Unnamed)'
+0
+
+*** File '(Unnamed)'
+heatdemo
+0.002
+0.002
+
+*** File '(Unnamed)'
+send_mc
+event_register
+pkt
+time
+tick
+time
+volatile tim
+volatile
+volatile
+time
+time_ms
+
+*** File '(Unnamed)'
+ring.c
+ring.c
+ring.c
+ring.c
+ring.c
+ring.c
+sark.h
+sark.h
+ring.c
+ring.c
+sark.h
