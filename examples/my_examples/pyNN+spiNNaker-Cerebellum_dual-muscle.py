@@ -51,7 +51,7 @@ for pop in inp_mflayer_left:
 # 'listen_key': 0xFEFFFE30 for left error
 iosourceR_params = {'min_rate': 0.05, 'max_rate': 100, 'src_type': 'glob_pois', 'sensormax': 500, 'sensormin': 0, 'listen_key': 0xFEFFFE31}
 iosourceL_params = iosourceR_params.copy()
-iosourceL["listen_key"] = 0xFEFFFE32
+iosourceL_params["listen_key"] = 0xFEFFFE32
 inp_iolayer_right = p.Population(size_io, p.SpikeSourceRemote, iosourceR_params , label = "iolayerR_PLOT")
 inp_iolayer_left = p.Population(size_io, p.SpikeSourceRemote, iosourceL_params , label = "iolayerL_PLOT")
 inp_iolayer_right.set_mapping_constraint({'y': 0, 'x': 0})
@@ -214,8 +214,8 @@ pro_iopcsynapsis_right = p.Projection(inp_iolayer_right, pop_pclayer_right, pro_
 # connect all inputs in inp_mflayer to their respective dcn
 pro_mfdcnsynapsis_connector = p.AllToAllConnector(weights=weights_mfdcn/len(inp_mflayer_left),delays=1.0)
 for i, inp in enumerate(inp_mflayer_left):
-	pro_mfdcnsynapsis_left = p.Projection(inp, pop_dcnlayer_left, pro_mfdcnsynapsis_connector_left, target = "excitatory" , synapse_dynamics = None, label = "mfdcnsynapsis_left")
-	pro_mfdcnsynapsis_right = p.Projection(inp, pop_dcnlayer_right, pro_mfdcnsynapsis_connector_left, target = "excitatory" , synapse_dynamics = None, label = "mfdcnsynapsis_right")
+	pro_mfdcnsynapsis_left = p.Projection(inp, pop_dcnlayer_left, pro_mfdcnsynapsis_connector, target = "excitatory" , synapse_dynamics = None, label = "mfdcnsynapsis_left")
+	pro_mfdcnsynapsis_right = p.Projection(inp, pop_dcnlayer_right, pro_mfdcnsynapsis_connector, target = "excitatory" , synapse_dynamics = None, label = "mfdcnsynapsis_right")
 
 # we connect a set of pc cells (usually 2) to a single dcn cell
 rep = size_pc/size_dcn # should be 2, such that 2 pc are mapped to 1 dcn
