@@ -31,13 +31,13 @@ weight_mfgrc = 0.0044 # will be like the cummulative weight -> scaled by mf dime
 max_inp_rate = 30
 # input layers
 inp_mflayer_left = []
-mflayer0_current_params = {'sensormin': 1148, 'sensormax': 2100, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE20, 'src_type': 'rbf_det', 'gauss_width': 1.0}
+mflayer0_current_params = {'sensormin': 1148, 'sensormax': 2948, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE20, 'src_type': 'rbf_det', 'gauss_width': 1.0}
 mflayer0_current = p.Population(16, p.SpikeSourceRemote, mflayer0_current_params, label = "mflayerR_curr_PLOT")
 inp_mflayer_left.append(mflayer0_current)
 
 max_inp_rate = 30
 
-mflayer0_currset_params = {'sensormin': 0.0, 'sensormax': 900.0, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE30, 'src_type': 'rbf_det', 'gauss_width': 1.0}
+mflayer0_currset_params = {'sensormin': 0.0, 'sensormax': 1800.0, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE30, 'src_type': 'rbf_det', 'gauss_width': 1.0}
 mflayer0_currset = p.Population(16, p.SpikeSourceRemote, mflayer0_currset_params, label = "mflayerR_set_PLOT")
 inp_mflayer_left.append(mflayer0_currset)
 
