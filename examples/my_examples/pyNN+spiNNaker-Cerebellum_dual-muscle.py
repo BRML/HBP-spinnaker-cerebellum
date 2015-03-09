@@ -73,8 +73,8 @@ cellparams_pclayer = {
  'tau_syn_I' : 12.0062483732,
  'v_reset' : -70.0,
  }
-pop_pclayer_left= p.Population(size = size_pc, cellclass = p.IF_cond_exp, cellparams = cellparams_pclayer, label = "pclayerL_PLOT")
 pop_pclayer_right= p.Population(size = size_pc, cellclass = p.IF_cond_exp, cellparams = cellparams_pclayer, label = "pclayerR_PLOT")
+pop_pclayer_left= p.Population(size = size_pc, cellclass = p.IF_cond_exp, cellparams = cellparams_pclayer, label = "pclayerL_PLOT")
 pops_pclayer = [pop_pclayer_left,pop_pclayer_right]
 for pop in pops_pclayer:
     pop.stream()
