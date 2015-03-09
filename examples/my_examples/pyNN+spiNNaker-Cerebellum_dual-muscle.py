@@ -32,13 +32,13 @@ max_inp_rate = 30
 # input layers
 inp_mflayer_left = []
 mflayer0_current_params = {'sensormin': 1148, 'sensormax': 2948, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE20, 'src_type': 'rbf_det', 'gauss_width': 1.0}
-mflayer0_current = p.Population(16, p.SpikeSourceRemote, mflayer0_current_params, label = "mflayerR_curr_PLOT")
+mflayer0_current = p.Population(16, p.SpikeSourceRemote, mflayer0_current_params, label = "mf_cur_PLOT")
 inp_mflayer_left.append(mflayer0_current)
 
 max_inp_rate = 30
 
 mflayer0_currset_params = {'sensormin': 0.0, 'sensormax': 1800.0, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE30, 'src_type': 'rbf_det', 'gauss_width': 1.0}
-mflayer0_currset = p.Population(16, p.SpikeSourceRemote, mflayer0_currset_params, label = "mflayerR_set_PLOT")
+mflayer0_currset = p.Population(16, p.SpikeSourceRemote, mflayer0_currset_params, label = "mf_set_PLOT")
 inp_mflayer_left.append(mflayer0_currset)
 
 # we have 16*16*4*2*8 input neurons = 16384 GrCs per muscle
@@ -52,8 +52,8 @@ for pop in inp_mflayer_left:
 iosourceR_params = {'min_rate': 0.05, 'max_rate': 100, 'src_type': 'glob_pois', 'sensormax': 500, 'sensormin': 0, 'listen_key': 0xFEFFFE31}
 iosourceL_params = iosourceR_params.copy()
 iosourceL_params["listen_key"] = 0xFEFFFE32
-inp_iolayer_right = p.Population(size_io, p.SpikeSourceRemote, iosourceR_params , label = "iolayerR_PLOT")
-inp_iolayer_left = p.Population(size_io, p.SpikeSourceRemote, iosourceL_params , label = "iolayerL_PLOT")
+inp_iolayer_left = p.Population(size_io, p.SpikeSourceRemote, iosourceL_params , label = "ioL_PLOT")
+inp_iolayer_right = p.Population(size_io, p.SpikeSourceRemote, iosourceR_params , label = "ioR_PLOT")
 inp_iolayer_right.set_mapping_constraint({'y': 0, 'x': 0})
 inp_iolayer_left.set_mapping_constraint({'y': 0, 'x': 0})
 inp_iolayer_right.stream()
@@ -73,8 +73,8 @@ cellparams_pclayer = {
  'tau_syn_I' : 12.0062483732,
  'v_reset' : -70.0,
  }
-pop_pclayer_right= p.Population(size = size_pc, cellclass = p.IF_cond_exp, cellparams = cellparams_pclayer, label = "pclayerR_PLOT")
-pop_pclayer_left= p.Population(size = size_pc, cellclass = p.IF_cond_exp, cellparams = cellparams_pclayer, label = "pclayerL_PLOT")
+pop_pclayer_left= p.Population(size = size_pc, cellclass = p.IF_cond_exp, cellparams = cellparams_pclayer, label = "pcL_PLOT")
+pop_pclayer_right= p.Population(size = size_pc, cellclass = p.IF_cond_exp, cellparams = cellparams_pclayer, label = "pcR_PLOT")
 pops_pclayer = [pop_pclayer_left,pop_pclayer_right]
 for pop in pops_pclayer:
     pop.stream()
@@ -93,8 +93,8 @@ cellparams_dcnlayer = {
  'v_reset' : -70.0,
  }
 
-pop_dcnlayer_left = p.Population(size = size_dcn, cellclass = p.IF_cond_exp, cellparams = cellparams_dcnlayer, label = "dcnlayerL_PLOT")
-pop_dcnlayer_right = p.Population(size = size_dcn, cellclass = p.IF_cond_exp, cellparams = cellparams_dcnlayer, label = "dcnlayerR_PLOT")
+pop_dcnlayer_left = p.Population(size = size_dcn, cellclass = p.IF_cond_exp, cellparams = cellparams_dcnlayer, label = "dcnL_PLOT")
+pop_dcnlayer_right = p.Population(size = size_dcn, cellclass = p.IF_cond_exp, cellparams = cellparams_dcnlayer, label = "dcnR_PLOT")
 pops_dcnlayer = [pop_dcnlayer_left, pop_dcnlayer_right]
 
 pops_myomotor = []
@@ -113,8 +113,8 @@ myomotorL_params = myomotorR_params.copy()
 myomotorL_params["monitorID"] = 0x125
 myomotorL_params["motorID"] = 0x115
 
-myomotor_right = p.Population(size_dcn, p.MyoRobotMotorControl, myomotorR_params , label = "myolayerR")
 myomotor_left = p.Population(size_dcn, p.MyoRobotMotorControl, myomotorL_params , label = "myolayerL")
+myomotor_right = p.Population(size_dcn, p.MyoRobotMotorControl, myomotorR_params , label = "myolayerR")
 pops_myomotor = [myomotor_left, myomotor_right]
 # we have different dcnlayers for left, right
 for pop in pops_myomotor:
@@ -145,7 +145,7 @@ grcsize_left = 1
 # how many GrCs do we really need?
 for pop in inp_mflayer_left:
     grcsize_left *= pop.size
-pop_grclayer_left = p.Population(size = grcsize_left, cellclass = p.IF_cond_exp, cellparams = cellparams_grclayer, label = "grclayerL_PLOT") #_PLOT
+pop_grclayer_left = p.Population(size = grcsize_left, cellclass = p.IF_cond_exp, cellparams = cellparams_grclayer, label = "grc_PLOT") #_PLOT
 pop_grclayer_left.stream()
 
 #weight_mfgrc = 0.5 # will be like the cummulative weight -> scaled by mf dimension
