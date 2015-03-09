@@ -28,7 +28,7 @@ class MyoRobotMotorControl(PopulationVertex):
     '''
     def __init__(self, n_neurons, virtual_chip_coords, connected_chip_coords,
                  connected_chip_edge, output_scale = 10.0, sample_time = 100,
-                 decay_factor = 0.2, kernel_amplitude = 1.0, threshold = 16,
+                 decay_factor = 0.2, kernel_amplitude = 1.0, threshold = 20,
                  motorID = 0x110, monitorID = 0x120, enableSensors = 0xf,
                  label="MyoRobotMotorControl"):
         super(MyoRobotMotorControl, self).__init__(n_neurons = n_neurons, n_params = 3,

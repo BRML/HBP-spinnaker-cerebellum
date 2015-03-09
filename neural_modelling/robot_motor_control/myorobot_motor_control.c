@@ -68,11 +68,12 @@ static REAL sensor_scale;
 
 static uint32_t time_rand_scale;
 
-#define SAFEMAX 800 //play it safe, for the moment! we're allowed to go up to 4000
+#define SAFEMAX 2000 //play it safe, for the moment! we're allowed to go up to 4000
 
 static inline void send_motorcmd(REAL pwm_value) {
     if (pwm_value < -SAFEMAX) pwm_value = -SAFEMAX;
 	else if (pwm_value > SAFEMAX) pwm_value = SAFEMAX;
+    if (pwm_value < threshold) pwm_value = 0;
     while (!spin1_send_mc_packet(iokey, (int32_t) pwm_value, WITH_PAYLOAD)) {
 		spin1_delay_us(1);
 	    }	
