@@ -1,5 +1,4 @@
 build/
-binaries/
 output_binaries/
 reports/
 SpiNNaker_Package.egg-info/
@@ -15,3 +14,6 @@ dist/
 *.elf
 *.rpt
 *.pyc
+*.txt
+*.gas
+DEADJOE
