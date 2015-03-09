@@ -106,7 +106,7 @@ myomotorR_params = { 'virtual_chip_coords': {'y': 254, 'x': 254},
                     'monitorID': 0x120, 
                     'motorID': 0x110, 
                     'kernel_amplitude': 0.4472135954999579, 
-                    'threshold': 0, 
+                    'threshold': 50, 
                     'connected_chip_coords': {'y': 0, 'x': 0}
                   }
 myomotorL_params = myomotorR_params.copy()
