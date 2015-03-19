@@ -8,7 +8,7 @@ rt = 10000 #runtime
 p.setup(timestep=1.0, min_delay = 1.0, max_delay = 32.0)
 virtual_chip_coords = {'x': 0, 'y': 12} # 12 is fine for spin5, spin3 prob. too
 connected_chip_coords = {'x': 0, 'y': 0}
-link=4 # 3 for spin3, 4 for spin5
+link=3 # 3 for spin3, 4 for spin5
 tau = 100e-3
 
 cell_params_lif = {'cm'        : 0.25, # nF
@@ -51,7 +51,8 @@ myopop2=p.Population(100,p.MyoRobotMotorControl,extparams.copy(),label='myoext')
 testpop=p.Population(200, p.IF_curr_exp, cell_params_lif, label='ifcurr')
 testpop.record()
 
-inppop=p.Population(100,p.SpikeSourcePoisson,{'rate':120,'duration':8000})
+inppop=p.Population(100,p.SpikeSourcePoisson,{'rate':120,'duration':8000},label="poisson_PLOT")
+inppop.stream()
 inp2pop=p.Population(100,p.SpikeSourcePoisson,{'rate':50,'duration':8000})
 
 proj=p.Projection(inppop,myopop,p.OneToOneConnector(weights=1.00,delays=1.0))

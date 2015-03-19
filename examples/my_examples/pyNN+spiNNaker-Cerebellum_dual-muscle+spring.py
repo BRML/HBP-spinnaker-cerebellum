@@ -5,7 +5,7 @@ sim = "spiNNaker"
 exec("import pyNN." + sim + " as p")
 from pacman103.front.common.external_device import ExternalDevice
 #from PynnSpinnIO import *
-spIOedge = 4 # 3 for spiNN-3, 4 for spiNN-4,5
+spIOedge = 3 # 3 for spiNN-3, 4 for spiNN-4,5
 timestep = 0.6
 runtime=48*60*60e3
 
@@ -32,13 +32,17 @@ max_inp_rate = 30
 # input layers
 inp_mflayer_left = []
 mflayer0_current_params = {'sensormin': 1148, 'sensormax': 2948, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE20, 'src_type': 'rbf_det', 'gauss_width': 1.0}
-mflayer0_current = p.Population(16, p.SpikeSourceRemote, mflayer0_current_params, label = "mf_cur_PLOT")
+mflayer0_current = p.Population(8, p.SpikeSourceRemote, mflayer0_current_params, label = "mf_cur_PLOT")
 inp_mflayer_left.append(mflayer0_current)
+
+mflayer0_spring_params = {'sensormin': -20, 'sensormax': 1000, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE03, 'src_type': 'rbf_det', 'gauss_width': 1.0}
+mflayer0_spring = p.Population(8, p.SpikeSourceRemote, mflayer0_spring_params, label = "mf_spr_PLOT")
+inp_mflayer_left.append(mflayer0_spring)
 
 max_inp_rate = 30
 
 mflayer0_currset_params = {'sensormin': 0.0, 'sensormax': 1800.0, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE30, 'src_type': 'rbf_det', 'gauss_width': 1.0}
-mflayer0_currset = p.Population(16, p.SpikeSourceRemote, mflayer0_currset_params, label = "mf_set_PLOT")
+mflayer0_currset = p.Population(8, p.SpikeSourceRemote, mflayer0_currset_params, label = "mf_set_PLOT")
 inp_mflayer_left.append(mflayer0_currset)
 
 # we have 16*16*4*2*8 input neurons = 16384 GrCs per muscle
