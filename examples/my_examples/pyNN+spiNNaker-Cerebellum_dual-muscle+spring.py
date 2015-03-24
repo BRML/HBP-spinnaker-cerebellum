@@ -28,18 +28,20 @@ weight_mfgrc = 0.0044 # will be like the cummulative weight -> scaled by mf dime
 
 # input layers
 
-max_inp_rate = 30
+max_inp_rate = 20
 # input layers
 inp_mflayer_left = []
 mflayer0_current_params = {'sensormin': 1148, 'sensormax': 2948, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE20, 'src_type': 'rbf_det', 'gauss_width': 1.0}
 mflayer0_current = p.Population(8, p.SpikeSourceRemote, mflayer0_current_params, label = "mf_cur_PLOT")
 inp_mflayer_left.append(mflayer0_current)
 
-mflayer0_spring_params = {'sensormin': -20, 'sensormax': 1000, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE03, 'src_type': 'rbf_det', 'gauss_width': 1.0}
-mflayer0_spring = p.Population(8, p.SpikeSourceRemote, mflayer0_spring_params, label = "mf_spr_PLOT")
-inp_mflayer_left.append(mflayer0_spring)
+mflayer0_spring_left_params = {'sensormin': -20, 'sensormax': 500, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE03, 'src_type': 'rbf_det', 'gauss_width': 1.0}
+mflayer0_spring_left = p.Population(4, p.SpikeSourceRemote, mflayer0_spring_left_params, label = "mf_sprL_PLOT")
+inp_mflayer_left.append(mflayer0_spring_left)
 
-max_inp_rate = 30
+mflayer0_spring_right_params = {'sensormin': -20, 'sensormax': 500, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE07, 'src_type': 'rbf_det', 'gauss_width': 1.0}
+mflayer0_spring_right = p.Population(4, p.SpikeSourceRemote, mflayer0_spring_right_params, label = "mf_sprR_PLOT")
+inp_mflayer_left.append(mflayer0_spring_right)
 
 mflayer0_currset_params = {'sensormin': 0.0, 'sensormax': 1800.0, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE30, 'src_type': 'rbf_det', 'gauss_width': 1.0}
 mflayer0_currset = p.Population(8, p.SpikeSourceRemote, mflayer0_currset_params, label = "mf_set_PLOT")
@@ -106,11 +108,11 @@ myomotorR_params = { 'virtual_chip_coords': {'y': 254, 'x': 254},
                     'decay_factor': 0.9548374180359596, 
                     'connected_chip_edge': spIOedge, 
                     'sample_time': 40.0, 
-                    'output_scale': 2.2, 
+                    'output_scale': 2.2,
                     'monitorID': 0x120, 
                     'motorID': 0x110, 
                     'kernel_amplitude': 0.4472135954999579, 
-                    'threshold': 50, 
+                    'threshold': 0, #50
                     'connected_chip_coords': {'y': 0, 'x': 0}
                   }
 myomotorL_params = myomotorR_params.copy()
