@@ -23,7 +23,7 @@
 // for general machine time steps
 static uint32_t	refractory_time_update = 10;  // defaults to 1ms time step i.e. 10 x 1/10ths of a msec
 
-static sat accum 		input_this_timestep;  			// used within file scope to send input data around and keep to 4 params
+static REAL 		input_this_timestep;  			// used within file scope to send input data around and keep to 4 params
 
 
 #ifdef CORRECT_FOR_THRESHOLD_GRANULARITY 	
@@ -160,8 +160,8 @@ bool neuron_state_update( REAL exc_input, REAL inh_input, neuron_pointer_t neuro
 // inh_input    "         "       from inhibitory buffer
 // we can probably assume that conductances must be positive, and so use unsigned in the buffers for better precision
 		input_this_timestep = 	exc_input * ( neuron->V_rev_E - V_last )  +   // need to check units and polarity of inh
-										inh_input * ( neuron->V_rev_I - V_last )  + 
-										neuron->I_offset; // adding offset current - all need to be in nA
+					inh_input * ( neuron->V_rev_I - V_last )  + 
+					neuron->I_offset; // adding offset current - all need to be in nA
 
 		lif_neuron_closed_form( neuron, V_last, -neuron->refract_timer );
 //		ode_solve_fix_ss_expl( RK_METHOD, NO_OF_EXPL_FIX_STEPS, EXPL_FIX_STEP_SIZE, neuron );
