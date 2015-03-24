@@ -23,7 +23,7 @@
 // for general machine time steps
 static uint32_t	refractory_time_update = 10;  // defaults to 1ms time step i.e. 10 x 1/10ths of a msec
 
-static REAL 		input_this_timestep;  			// used within file scope to send input data around and keep to 4 params
+static sat accum 		input_this_timestep;  			// used within file scope to send input data around and keep to 4 params
 
 
 #ifdef CORRECT_FOR_THRESHOLD_GRANULARITY 	
