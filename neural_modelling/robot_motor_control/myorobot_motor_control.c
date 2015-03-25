@@ -67,6 +67,7 @@ static uint32_t n_neurons;
 static REAL sensor_scale;
 
 static uint32_t time_rand_scale;
+static uint coreid;
 
 #define SAFEMAX 2000 //play it safe, for the moment! we're allowed to go up to 4000
 
@@ -101,7 +102,7 @@ void timer_callback (uint unused0, uint unused1)
   use(unused1);
   time++;
     
-  if ((time % sample_time) == sample_time - 1 )
+  if ((time % sample_time) == sample_time - coreid )
   {
     // decay the output
 	output_var *= decay_factor;
@@ -151,6 +152,8 @@ bool robot_source_data_filled(address_t base_address) {
 	iokey = iokey | SINGLE_SET_MOTOR_ID;
 	counter = 0;
 	output_var = 0;
+	
+	coreid = spin1_get_core_id();
 	
 	return (true);
 }
