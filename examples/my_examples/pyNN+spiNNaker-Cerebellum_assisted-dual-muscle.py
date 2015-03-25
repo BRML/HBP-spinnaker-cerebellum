@@ -21,8 +21,10 @@ size_pc = 8 # separate set (size 16) for left and right
 size_io = size_pc
 size_dcn = size_pc/2
 
-weights_mfdcn = 0.005 # 0.005
-weights_pcdcn = 0.001 # was 0.08; values above ~0.002 cause spikes in the DCNs !! this is a bug most likely caused by membrane potential overflow ...
+size_cort = 80 # size of shortcut population, feeding directly into myomuscle
+
+weights_mfdcn = 0.005 # was 0.4; now set to lower value to compensate for weights_pcdcn
+weights_pcdcn = 0.002 # was 0.08; values above ~0.002 cause spikes in the DCNs !! this is a bug most likely caused by membrane potential overflow ...
 weight_mfgrc = 0.0044 # will be like the cummulative weight -> scaled by mf dimension
 # we might want different weights for different input later on!
 
@@ -49,7 +51,7 @@ for pop in inp_mflayer_left:
     pop.stream()
 
 # 'listen_key': 0xFEFFFE30 for left error
-iosourceR_params = {'min_rate': 0.05, 'max_rate': 200, 'src_type': 'glob_pois', 'sensormax': 500, 'sensormin': 0, 'listen_key': 0xFEFFFE31}
+iosourceR_params = {'min_rate': 0.05, 'max_rate': 100, 'src_type': 'glob_pois', 'sensormax': 500, 'sensormin': 0, 'listen_key': 0xFEFFFE31}
 iosourceL_params = iosourceR_params.copy()
 iosourceL_params["listen_key"] = 0xFEFFFE32
 inp_iolayer_left = p.Population(size_io, p.SpikeSourceRemote, iosourceL_params , label = "ioL_PLOT")
@@ -58,6 +60,15 @@ inp_iolayer_right.set_mapping_constraint({'y': 0, 'x': 0})
 inp_iolayer_left.set_mapping_constraint({'y': 0, 'x': 0})
 inp_iolayer_right.stream()
 inp_iolayer_left.stream()
+
+cortexSourceL_params = {'min_rate': 20.0, 'max_rate': 500, 'src_type': 'glob_pois', 'sensormax': 500, 'sensormin': -40, 'listen_key': 0xFEFFFE40}
+inp_cortlayer_left = p.Population(size_cort, p.SpikeSourceRemote, cortexSourceL_params , label = "coL")
+inp_cortlayer_left.set_mapping_constraint({'y': 0, 'x': 0})
+cortexSourceR_params = {'min_rate': 20.0, 'max_rate': 500, 'src_type': 'glob_pois', 'sensormax': 500, 'sensormin': -40, 'listen_key': 0xFEFFFE41}
+inp_cortlayer_right = p.Population(size_cort, p.SpikeSourceRemote, cortexSourceR_params , label = "coR")
+inp_cortlayer_right.set_mapping_constraint({'y': 0, 'x': 0})
+pops_cortlayer = [inp_cortlayer_left, inp_cortlayer_right]
+
 
 # neuron layers
 
@@ -102,11 +113,11 @@ myomotorR_params = { 'virtual_chip_coords': {'y': 254, 'x': 254},
                     'decay_factor': 0.9548374180359596, 
                     'connected_chip_edge': spIOedge, 
                     'sample_time': 40.0, 
-                    'output_scale': 2.2, # 2.2
+                    'output_scale': 1.4, 
                     'monitorID': 0x120, 
                     'motorID': 0x110, 
-                    'kernel_amplitude': 0.4472135954999579, #0.894427191, # 0.4472135954999579
-                    'threshold': 0, # 50
+                    'kernel_amplitude': 0.4472135954999579, 
+                    'threshold': 10, # 50
                     'connected_chip_coords': {'y': 0, 'x': 0}
                   }
 myomotorL_params = myomotorR_params.copy()
@@ -187,8 +198,15 @@ for inpop in inp_mflayer_left:
 pops_grclayer = [pop_grclayer_left]
 
 for dcn,myo in zip(pops_dcnlayer,pops_myomotor):
-    p.Projection(dcn, myo, p.OneToOneConnector(weights=1.0,delays=1.0))
+    conn_list = p.FromListConnector([(x,0,1.0,1.0) for x in range(size_dcn)])
+    p.Projection(dcn, myo, conn_list)
     dcn.stream()
+
+for cort,myo in zip(pops_cortlayer,pops_myomotor):
+    conn_list = p.FromListConnector([(x,0,1.0,1.0) for x in range(size_cort)])
+    p.Projection(cort, myo, conn_list)
+    #cort.stream()
+
 
 # synapse layers
 wdep_grcpcsynapsis = p.AdditiveWeightDependence(w_min = 0.0, w_max = 0.5, A_plus = 0.0015, A_minus = 0.0018)
@@ -197,8 +215,8 @@ stdp_grcpcsynapsis = p.STDPMechanism(timing_dependence = tdep_grcpcsynapsis, wei
 syndyn_grcpcsynapsis = p.SynapseDynamics( slow = stdp_grcpcsynapsis)
 
 rng = p.NumpyRNG(seed=hash(time.time()))
-grcpc_weights_distribution = p.RandomDistribution('uniform',[0.05,0.09],rng)
-pro_grcpcsynapsis_connector = p.FixedProbabilityConnector(0.8,weights=grcpc_weights_distribution)
+grcpc_weights_distribution = p.RandomDistribution('uniform',[0.1,0.2],rng)
+pro_grcpcsynapsis_connector = p.FixedProbabilityConnector(0.7,weights=grcpc_weights_distribution)
 pro_grcpcsynapsis_left = p.Projection(pop_grclayer_left, pop_pclayer_left, pro_grcpcsynapsis_connector, target = "excitatory" , synapse_dynamics = syndyn_grcpcsynapsis, label = "grcpcsynapsis")
 pro_grcpcsynapsis_right = p.Projection(pop_grclayer_left, pop_pclayer_right, pro_grcpcsynapsis_connector, target = "excitatory" , synapse_dynamics = syndyn_grcpcsynapsis, label = "grcpcsynapsis")
 pro_grcpcsynapses = [pro_grcpcsynapsis_left, pro_grcpcsynapsis_right]
