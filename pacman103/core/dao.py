@@ -6,6 +6,7 @@ from pacman103.lib.machine import machine
 from pacman103.store import machines
 from pacman103.core import data_spec_executor, exceptions
 
+import time
 import logging
 logger = logging.getLogger(__name__)
 
@@ -443,6 +444,13 @@ class DAO( object ):
             os.makedirs(directory)
         return directory
 
+    def write_running_msg(self):
+        rep_dir = self.get_reports_directory()
+        running_file = os.path.join(rep_dir,"app_running")
+        writer = open(running_file,"w")
+        writer.write(format(time.time(),".4f")+"\n")
+        writer.close()
+        
     @staticmethod
     def get_common_binaries_directory():
         '''

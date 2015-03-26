@@ -20,6 +20,7 @@ import numpy
 
 logger = logging.getLogger( __name__ )
 
+from pacman103.core.dao import DAO
 from pacman103.core import control
 from pacman103.lib import graph, lib_map
 from pacman103.core import exceptions
@@ -142,6 +143,7 @@ def run(run_time = None, do_load = None, do_run = None):
         
         if do_run == True:
             logger.info("*** Running simulation... *** ")
+            controller.dao.write_running_msg()
             controller.run(controller.dao.app_id)
     else:
         logger.info("*** No simulation requested: Stopping. ***")
