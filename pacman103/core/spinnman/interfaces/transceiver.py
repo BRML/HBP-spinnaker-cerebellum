@@ -282,6 +282,7 @@ class Transceiver(object):
 
         if run_time is not None:
             logger.info("Application started - waiting for it to stop")
+            dao.write_running_msg()
             time.sleep(run_time / 1000.0)
             processors_not_finished = processors_ready
             while processors_not_finished != 0:
