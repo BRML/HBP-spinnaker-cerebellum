@@ -70,7 +70,7 @@ static uint32_t time_rand_scale;
 static uint coreid;
 
 #define SAFEMAX 1200 //play it safe, for the moment! we're allowed to go up to 4000
-#define SAFEMIN 48 // we neither want a free-running nor a reverse-running muscle-motor
+#define SAFEMIN 42 // we neither want a free-running nor a reverse-running muscle-motor
 
 static inline void send_motorcmd(REAL pwm_value) {
     
