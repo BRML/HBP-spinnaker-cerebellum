@@ -50,7 +50,7 @@ for pop in inp_mflayer_left:
     pop.stream()
 
 # 'listen_key': 0xFEFFFE30 for left error
-iosourceR_params = {'min_rate': 0.05, 'max_rate': 200, 'src_type': 'glob_pois', 'sensormax': 500, 'sensormin': 0, 'listen_key': 0xFEFFFE31}
+iosourceR_params = {'min_rate': 0.05, 'max_rate': 130, 'src_type': 'glob_pois', 'sensormax': 500, 'sensormin': 0, 'listen_key': 0xFEFFFE31}
 iosourceL_params = iosourceR_params.copy()
 iosourceL_params["listen_key"] = 0xFEFFFE32
 inp_iolayer_left = p.Population(size_io, p.SpikeSourceRemote, iosourceL_params , label = "ioL_PLOT")
@@ -100,14 +100,14 @@ pops_dcnlayer = [pop_dcnlayer_left, pop_dcnlayer_right]
 
 pops_myomotor = []
 myomotorR_params = { 'virtual_chip_coords': {'y': 254, 'x': 254}, 
-                    'decay_factor': 0.9548374180359596, 
+                    'decay_factor': 0.965, 
                     'connected_chip_edge': spIOedge, 
                     'sample_time': 25.0, # 40
-                    'output_scale': 1.0, # 2.2
+                    'output_scale': 6.5, # 2.2
                     'monitorID': 0x120, 
                     'motorID': 0x110, 
                     'kernel_amplitude': 1.28, #for sample_time 40: 0.8 #0.894427191, # 0.4472135954999579
-                    'threshold': 40, # 50
+                    'threshold': 120, # 40
                     'connected_chip_coords': {'y': 0, 'x': 0}
                   }
 myomotorL_params = myomotorR_params.copy()
@@ -206,7 +206,7 @@ pro_grcpcsynapses = [pro_grcpcsynapsis_left, pro_grcpcsynapsis_right]
 
 # limit number of neurons per core based on the number of dentritic inputs we receive
 for proj in pro_grcpcsynapses:
-    proj.projection_edge.postvertex.custom_max_atoms_per_core = max(1,12000 / proj.projection_edge.prevertex.atoms)
+    proj.projection_edge.postvertex.custom_max_atoms_per_core = max(1,2000 / proj.projection_edge.prevertex.atoms)
 
 pro_iopcsynapsis_connector = p.OneToOneConnector(weights=0.0,delays=1.0)
 pro_iopcsynapsis_left = p.Projection(inp_iolayer_left, pop_pclayer_left, pro_iopcsynapsis_connector, target = "inhibitory" , synapse_dynamics = None, label = "iopcsynapsis_left")
