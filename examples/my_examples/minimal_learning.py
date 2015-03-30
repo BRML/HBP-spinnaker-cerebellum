@@ -42,13 +42,13 @@ cell_params=cellparams_pclayer
 #prepop = p.Population(nn,p.SpikeSourceArray,{'spike_times':[[i for i in arange(0,duration,800)],
 #                                                            [i for i in arange(0,duration,80)]]*(nn/2)})
 #prepop = p.Population(nn,p.SpikeSourceArray,{'spike_times':[[i for i in arange(0,duration*j/(nn+1),100)] for j in range(nn)]})
-prepop = p.Population(nn_pre,p.SpikeSourcePoisson,{'rate':40,'duration':duration})
+prepop = p.Population(nn_pre,p.SpikeSourcePoisson,{'rate':3.3,'duration':duration})
 #prepop.record()
 
 #teachpop = p.Population(nn,p.SpikeSourceArray,{'spike_times':[[i for i in arange(250,0.8*duration,100)], #]})
 #                                                              [i for i in arange(250,0.8*duration,100)]]*(nn/2)})
 #teachpop = p.Population(nn,p.SpikeSourceArray,{'spike_times':[[i f)
-teachpop = p.Population(nn_teach,p.SpikeSourcePoisson,{'rate':50,'duration':duration})
+teachpop = p.Population(nn_teach,p.SpikeSourcePoisson,{'rate':100,'duration':duration})
 
 
 #teachpop.record()
