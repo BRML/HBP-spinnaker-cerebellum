@@ -70,11 +70,13 @@ static uint32_t time_rand_scale;
 static uint coreid;
 
 #define SAFEMAX 2000 //play it safe, for the moment! we're allowed to go up to 4000
+#define SAFEMIN 1 // we neither want a free-running nor a reverse-running muscle-motor
 
 static inline void send_motorcmd(REAL pwm_value) {
-    if (pwm_value < -SAFEMAX) pwm_value = -SAFEMAX;
+    
+    if (pwm_value < SAFEMIN) pwm_value = SAFEMIN;
 	else if (pwm_value > SAFEMAX) pwm_value = SAFEMAX;
-    if (pwm_value < threshold) pwm_value = 0;
+//    if (pwm_value < threshold) pwm_value = 0;
     while (!spin1_send_mc_packet(iokey, (int32_t) pwm_value, WITH_PAYLOAD)) {
 		spin1_delay_us(1);
 	    }	
@@ -109,7 +111,7 @@ void timer_callback (uint unused0, uint unused1)
 	output_var += ( counter * kernel_amplitude );
 	
 	// Move ya!
-	send_motorcmd(output_var * output_scale);
+	send_motorcmd( (output_var - threshold) * output_scale);
 
 	// Reset the counters
 	counter = 0;
