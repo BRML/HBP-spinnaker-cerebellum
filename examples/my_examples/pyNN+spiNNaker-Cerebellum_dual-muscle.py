@@ -21,10 +21,11 @@ size_pc = 8 # separate set (size 16) for left and right
 size_io = size_pc
 size_dcn = size_pc/2
 
-weights_mfdcn = 0.005 # 0.005
-weights_pcdcn = 0.001 # was 0.08; values above ~0.002 cause spikes in the DCNs !! this is a bug most likely caused by membrane potential overflow ...
+weights_mfdcn = 0.006 # 0.005
+weights_pcdcn = 0.002 # was 0.08; values above ~0.002 cause spikes in the DCNs !! this is a bug most likely caused by membrane potential overflow ...
 weight_mfgrc = 0.0044 # will be like the cummulative weight -> scaled by mf dimension
 # we might want different weights for different input later on!
+#weights_dcndcn = 0.001 # test!
 
 # input layers
 
@@ -101,12 +102,12 @@ pops_myomotor = []
 myomotorR_params = { 'virtual_chip_coords': {'y': 254, 'x': 254}, 
                     'decay_factor': 0.9548374180359596, 
                     'connected_chip_edge': spIOedge, 
-                    'sample_time': 40.0, 
-                    'output_scale': 2.2, # 2.2
+                    'sample_time': 25.0, # 40
+                    'output_scale': 1.0, # 2.2
                     'monitorID': 0x120, 
                     'motorID': 0x110, 
-                    'kernel_amplitude': 0.4472135954999579, #0.894427191, # 0.4472135954999579
-                    'threshold': 0, # 50
+                    'kernel_amplitude': 1.28, #for sample_time 40: 0.8 #0.894427191, # 0.4472135954999579
+                    'threshold': 40, # 50
                     'connected_chip_coords': {'y': 0, 'x': 0}
                   }
 myomotorL_params = myomotorR_params.copy()
@@ -226,6 +227,11 @@ pro_pcdcnsynapsis_connector_left = p.FromListConnector(pro_pcdcnsynapsis_connlis
 
 pro_pcdcnsynapsis_left = p.Projection(pop_pclayer_left, pop_dcnlayer_left, pro_pcdcnsynapsis_connector_left, target = "inhibitory" , synapse_dynamics = None, label = "pcdcnsynapsis_left")
 pro_pcdcnsynapsis_right = p.Projection(pop_pclayer_right, pop_dcnlayer_right, pro_pcdcnsynapsis_connector_left, target = "inhibitory" , synapse_dynamics = None, label = "pcdcnsynapsis_right")
+
+# test inhibitory connections between both DCNs
+#pro_dcndcnsynapsis_connector = p.AllToAllConnector(weights=weights_dcndcn,delays=1.0)
+#pro_dcnlrsynapsis = p.Projection(pop_dcnlayer_left, pop_dcnlayer_right, pro_dcndcnsynapsis_connector, target = "inhibitory" , synapse_dynamics = None, label = "dcnlrsynapsis")
+#pro_dcnrlsynapsis = p.Projection(pop_dcnlayer_right, pop_dcnlayer_left, pro_dcndcnsynapsis_connector, target = "inhibitory" , synapse_dynamics = None, label = "dcnrlsynapsis")
 
 # run the simulation, we made this a 2 step process
 # first set up and upload everything

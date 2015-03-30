@@ -29,7 +29,7 @@ weight_mfgrc = 0.0042 # will be like the cummulative weight -> scaled by mf dime
 
 mfgrc_weight_range = [0.0015,0.0032] # Weights are randomly initialized according to mfgrc_weight_range
 
-grcsize_left = 0 #24*24 # if 0, map input space to n-dim mf-space
+grcsize_left = 1000 #24*24 # if 0, map input space to n-dim mf-space
 # if > 0: fixed grc size, a random set of <mfs_per_grc> neurons of the whole input space is 
 # mapped onto 1 grc neuron. 
 mfs_per_grc = 2
