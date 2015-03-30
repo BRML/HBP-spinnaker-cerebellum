@@ -75,7 +75,7 @@ pro_grcpcsynapsis_connector = p.FixedProbabilityConnector(0.8,weights=grcpc_weig
 pro_grcpcsynapsis_left = p.Projection(prepop, postpop, pro_grcpcsynapsis_connector, target = "excitatory" , synapse_dynamics = syndyn_grcpcsynapsis, label = "grcpcsynapsis")
 
 proj = pro_grcpcsynapsis_left
-proj.projection_edge.postvertex.custom_max_atoms_per_core = max(1,12000 / proj.projection_edge.prevertex.atoms)
+proj.projection_edge.postvertex.custom_max_atoms_per_core = max(1,4000 / proj.projection_edge.prevertex.atoms)
 
 #plasticsyn.projection_edge.postvertex.custom_max_atoms_per_core = 100
 p.run(duration)
