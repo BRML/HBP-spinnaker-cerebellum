@@ -50,7 +50,7 @@ for pop in inp_mflayer_left:
     pop.stream()
 
 # 'listen_key': 0xFEFFFE30 for left error
-iosourceR_params = {'min_rate': 0.05, 'max_rate': 130, 'src_type': 'glob_pois', 'sensormax': 500, 'sensormin': 0, 'listen_key': 0xFEFFFE31}
+iosourceR_params = {'min_rate': 0.05, 'max_rate': 120, 'src_type': 'glob_pois', 'sensormax': 500, 'sensormin': 0, 'listen_key': 0xFEFFFE31}
 iosourceL_params = iosourceR_params.copy()
 iosourceL_params["listen_key"] = 0xFEFFFE32
 inp_iolayer_left = p.Population(size_io, p.SpikeSourceRemote, iosourceL_params , label = "io_L_PLOT")
@@ -100,14 +100,14 @@ pops_dcnlayer = [pop_dcnlayer_left, pop_dcnlayer_right]
 
 pops_myomotor = []
 myomotorR_params = { 'virtual_chip_coords': {'y': 254, 'x': 254}, 
-                    'decay_factor': 0.965, 
+                    'decay_factor': 0.960, #.965
                     'connected_chip_edge': spIOedge, 
                     'sample_time': 25.0, # 40
-                    'output_scale': 6.5, # 2.2
+                    'output_scale': 9.0, # 2.2
                     'monitorID': 0x120, 
                     'motorID': 0x110, 
                     'kernel_amplitude': 1.28, #for sample_time 40: 0.8 #0.894427191, # 0.4472135954999579
-                    'threshold': 120, # 40
+                    'threshold': 130, # 120, 40
                     'connected_chip_coords': {'y': 0, 'x': 0}
                   }
 myomotorL_params = myomotorR_params.copy()
@@ -147,7 +147,7 @@ grcsize_left = 1
 for pop in inp_mflayer_left:
     grcsize_left *= pop.size
 pop_grclayer_left = p.Population(size = grcsize_left, cellclass = p.IF_cond_exp, cellparams = cellparams_grclayer, label = "grc") #_PLOT
-#pop_grclayer_left.stream()
+pop_grclayer_left.stream() # to be tested for performance!
 
 #weight_mfgrc = 0.5 # will be like the cummulative weight -> scaled by mf dimension
 # we might want different weights for different input later on!

@@ -21,30 +21,28 @@ size_pc = 8 # separate set (size 16) for left and right
 size_io = size_pc
 size_dcn = size_pc/2
 
-weights_mfdcn = 0.4
-weights_pcdcn = 0.08
+weights_mfdcn = 0.006 # 0.005
+weights_pcdcn = 0.002 # was 0.08; values above ~0.002 cause spikes in the DCNs !! this is a bug most likely caused by membrane potential overflow ...
 weight_mfgrc = 0.0044 # will be like the cummulative weight -> scaled by mf dimension
 # we might want different weights for different input later on!
+#weights_dcndcn = 0.001 # test!
 
 # input layers
 
-max_inp_rate = 20
+max_inp_rate = 30
 # input layers
 inp_mflayer_left = []
 mflayer0_current_params = {'sensormin': 1148, 'sensormax': 2948, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE20, 'src_type': 'rbf_det', 'gauss_width': 1.0}
-mflayer0_current = p.Population(8, p.SpikeSourceRemote, mflayer0_current_params, label = "mf_cur_PLOT")
+mflayer0_current = p.Population(16, p.SpikeSourceRemote, mflayer0_current_params, label = "mf_cur_PLOT")
 inp_mflayer_left.append(mflayer0_current)
 
 mflayer0_spring_left_params = {'sensormin': -20, 'sensormax': 500, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE03, 'src_type': 'rbf_det', 'gauss_width': 1.0}
-mflayer0_spring_left = p.Population(4, p.SpikeSourceRemote, mflayer0_spring_left_params, label = "mf_sprL_PLOT")
+mflayer0_spring_left = p.Population(8, p.SpikeSourceRemote, mflayer0_spring_left_params, label = "mf_sprL_PLOT")
 inp_mflayer_left.append(mflayer0_spring_left)
 
-mflayer0_spring_right_params = {'sensormin': -20, 'sensormax': 500, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE07, 'src_type': 'rbf_det', 'gauss_width': 1.0}
-mflayer0_spring_right = p.Population(4, p.SpikeSourceRemote, mflayer0_spring_right_params, label = "mf_sprR_PLOT")
-inp_mflayer_left.append(mflayer0_spring_right)
 
 mflayer0_currset_params = {'sensormin': 0.0, 'sensormax': 1800.0, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE30, 'src_type': 'rbf_det', 'gauss_width': 1.0}
-mflayer0_currset = p.Population(8, p.SpikeSourceRemote, mflayer0_currset_params, label = "mf_set_PLOT")
+mflayer0_currset = p.Population(16, p.SpikeSourceRemote, mflayer0_currset_params, label = "mf_set_PLOT")
 inp_mflayer_left.append(mflayer0_currset)
 
 # we have 16*16*4*2*8 input neurons = 16384 GrCs per muscle
@@ -55,11 +53,11 @@ for pop in inp_mflayer_left:
     pop.stream()
 
 # 'listen_key': 0xFEFFFE30 for left error
-iosourceR_params = {'min_rate': 0.05, 'max_rate': 100, 'src_type': 'glob_pois', 'sensormax': 500, 'sensormin': 0, 'listen_key': 0xFEFFFE31}
+iosourceR_params = {'min_rate': 0.05, 'max_rate': 130, 'src_type': 'glob_pois', 'sensormax': 500, 'sensormin': 0, 'listen_key': 0xFEFFFE31}
 iosourceL_params = iosourceR_params.copy()
 iosourceL_params["listen_key"] = 0xFEFFFE32
-inp_iolayer_left = p.Population(size_io, p.SpikeSourceRemote, iosourceL_params , label = "ioL_PLOT")
-inp_iolayer_right = p.Population(size_io, p.SpikeSourceRemote, iosourceR_params , label = "ioR_PLOT")
+inp_iolayer_left = p.Population(size_io, p.SpikeSourceRemote, iosourceL_params , label = "io_L_PLOT")
+inp_iolayer_right = p.Population(size_io, p.SpikeSourceRemote, iosourceR_params , label = "io_R_PLOT")
 inp_iolayer_right.set_mapping_constraint({'y': 0, 'x': 0})
 inp_iolayer_left.set_mapping_constraint({'y': 0, 'x': 0})
 inp_iolayer_right.stream()
@@ -79,8 +77,8 @@ cellparams_pclayer = {
  'tau_syn_I' : 12.0062483732,
  'v_reset' : -70.0,
  }
-pop_pclayer_left= p.Population(size = size_pc, cellclass = p.IF_cond_exp, cellparams = cellparams_pclayer, label = "pcL_PLOT")
-pop_pclayer_right= p.Population(size = size_pc, cellclass = p.IF_cond_exp, cellparams = cellparams_pclayer, label = "pcR_PLOT")
+pop_pclayer_left= p.Population(size = size_pc, cellclass = p.IF_cond_exp, cellparams = cellparams_pclayer, label = "pc_L_PLOT")
+pop_pclayer_right= p.Population(size = size_pc, cellclass = p.IF_cond_exp, cellparams = cellparams_pclayer, label = "pc_R_PLOT")
 pops_pclayer = [pop_pclayer_left,pop_pclayer_right]
 for pop in pops_pclayer:
     pop.stream()
@@ -99,20 +97,20 @@ cellparams_dcnlayer = {
  'v_reset' : -70.0,
  }
 
-pop_dcnlayer_left = p.Population(size = size_dcn, cellclass = p.IF_cond_exp, cellparams = cellparams_dcnlayer, label = "dcnL_PLOT")
-pop_dcnlayer_right = p.Population(size = size_dcn, cellclass = p.IF_cond_exp, cellparams = cellparams_dcnlayer, label = "dcnR_PLOT")
+pop_dcnlayer_left = p.Population(size = size_dcn, cellclass = p.IF_cond_exp, cellparams = cellparams_dcnlayer, label = "dcn_L_PLOT")
+pop_dcnlayer_right = p.Population(size = size_dcn, cellclass = p.IF_cond_exp, cellparams = cellparams_dcnlayer, label = "dcn_R_PLOT")
 pops_dcnlayer = [pop_dcnlayer_left, pop_dcnlayer_right]
 
 pops_myomotor = []
 myomotorR_params = { 'virtual_chip_coords': {'y': 254, 'x': 254}, 
-                    'decay_factor': 0.9548374180359596, 
+                    'decay_factor': 0.965, 
                     'connected_chip_edge': spIOedge, 
-                    'sample_time': 40.0, 
-                    'output_scale': 2.2,
+                    'sample_time': 25.0, # 40
+                    'output_scale': 10.5, # 2.2
                     'monitorID': 0x120, 
                     'motorID': 0x110, 
-                    'kernel_amplitude': 0.4472135954999579, 
-                    'threshold': 0, #50
+                    'kernel_amplitude': 1.28, #for sample_time 40: 0.8 #0.894427191, # 0.4472135954999579
+                    'threshold': 120, # 40
                     'connected_chip_coords': {'y': 0, 'x': 0}
                   }
 myomotorL_params = myomotorR_params.copy()
@@ -151,8 +149,8 @@ grcsize_left = 1
 # how many GrCs do we really need?
 for pop in inp_mflayer_left:
     grcsize_left *= pop.size
-pop_grclayer_left = p.Population(size = grcsize_left, cellclass = p.IF_cond_exp, cellparams = cellparams_grclayer, label = "grc_PLOT") #_PLOT
-#pop_grclayer_left.stream()
+pop_grclayer_left = p.Population(size = grcsize_left, cellclass = p.IF_cond_exp, cellparams = cellparams_grclayer, label = "grc") #_PLOT
+pop_grclayer_left.stream() # to be tested for performance!
 
 #weight_mfgrc = 0.5 # will be like the cummulative weight -> scaled by mf dimension
 # we might want different weights for different input later on!
@@ -197,7 +195,7 @@ for dcn,myo in zip(pops_dcnlayer,pops_myomotor):
     dcn.stream()
 
 # synapse layers
-wdep_grcpcsynapsis = p.AdditiveWeightDependence(w_min = 0.0, w_max = 0.5, A_plus = 0.0015, A_minus = 0.0018)
+wdep_grcpcsynapsis = p.AdditiveWeightDependence(w_min = 0.0, w_max = 0.4, A_plus = 0.0015, A_minus = 0.0020) # w_max = 0.4, A_plus = 0.0015, A_minus = 0.0018
 tdep_grcpcsynapsis = p.SpikePairRuleSinAdd(tau_minus = 50., tau_plus = 50., delay = 100.0, nearest = False ) # delay 70-100
 stdp_grcpcsynapsis = p.STDPMechanism(timing_dependence = tdep_grcpcsynapsis, weight_dependence = wdep_grcpcsynapsis, voltage_dependence = None )
 syndyn_grcpcsynapsis = p.SynapseDynamics( slow = stdp_grcpcsynapsis)
@@ -211,7 +209,7 @@ pro_grcpcsynapses = [pro_grcpcsynapsis_left, pro_grcpcsynapsis_right]
 
 # limit number of neurons per core based on the number of dentritic inputs we receive
 for proj in pro_grcpcsynapses:
-    proj.projection_edge.postvertex.custom_max_atoms_per_core = max(1,12000 / proj.projection_edge.prevertex.atoms)
+    proj.projection_edge.postvertex.custom_max_atoms_per_core = max(1,2000 / proj.projection_edge.prevertex.atoms)
 
 pro_iopcsynapsis_connector = p.OneToOneConnector(weights=0.0,delays=1.0)
 pro_iopcsynapsis_left = p.Projection(inp_iolayer_left, pop_pclayer_left, pro_iopcsynapsis_connector, target = "inhibitory" , synapse_dynamics = None, label = "iopcsynapsis_left")
@@ -232,6 +230,11 @@ pro_pcdcnsynapsis_connector_left = p.FromListConnector(pro_pcdcnsynapsis_connlis
 
 pro_pcdcnsynapsis_left = p.Projection(pop_pclayer_left, pop_dcnlayer_left, pro_pcdcnsynapsis_connector_left, target = "inhibitory" , synapse_dynamics = None, label = "pcdcnsynapsis_left")
 pro_pcdcnsynapsis_right = p.Projection(pop_pclayer_right, pop_dcnlayer_right, pro_pcdcnsynapsis_connector_left, target = "inhibitory" , synapse_dynamics = None, label = "pcdcnsynapsis_right")
+
+# test inhibitory connections between both DCNs
+#pro_dcndcnsynapsis_connector = p.AllToAllConnector(weights=weights_dcndcn,delays=1.0)
+#pro_dcnlrsynapsis = p.Projection(pop_dcnlayer_left, pop_dcnlayer_right, pro_dcndcnsynapsis_connector, target = "inhibitory" , synapse_dynamics = None, label = "dcnlrsynapsis")
+#pro_dcnrlsynapsis = p.Projection(pop_dcnlayer_right, pop_dcnlayer_left, pro_dcndcnsynapsis_connector, target = "inhibitory" , synapse_dynamics = None, label = "dcnrlsynapsis")
 
 # run the simulation, we made this a 2 step process
 # first set up and upload everything
