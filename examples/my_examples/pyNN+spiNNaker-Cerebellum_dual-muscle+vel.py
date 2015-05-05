@@ -33,14 +33,22 @@ max_inp_rate = 30
 # input layers
 inp_mflayer_left = []
 mflayer0_current_params = {'sensormin': 1248, 'sensormax': 2848, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE20, 'src_type': 'rbf_det', 'gauss_width': 1.0} # before: 1148 - 2948
-mflayer0_current = p.Population(16, p.SpikeSourceRemote, mflayer0_current_params, label = "mf_curr_PLOT")
+mflayer0_current = p.Population(8, p.SpikeSourceRemote, mflayer0_current_params, label = "mf_curr_pos_PLOT")
 inp_mflayer_left.append(mflayer0_current)
 
 max_inp_rate = 30
 
 mflayer0_currset_params = {'sensormin': 0.0, 'sensormax': 1600.0, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE30, 'src_type': 'rbf_det', 'gauss_width': 1.0}
-mflayer0_currset = p.Population(16, p.SpikeSourceRemote, mflayer0_currset_params, label = "mf_set_PLOT")
+mflayer0_currset = p.Population(8, p.SpikeSourceRemote, mflayer0_currset_params, label = "mf_set_pos_PLOT")
 inp_mflayer_left.append(mflayer0_currset)
+
+mflayer0_currvel_params = {'sensormin': 0.0, 'sensormax': 1000.0, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE33, 'src_type': 'rbf_det', 'gauss_width': 1.0} # sensormax = 2 * max_ang_vel
+mflayer0_currvel = p.Population(4, p.SpikeSourceRemote, mflayer0_currvel_params, label = "mf_curr_vel_PLOT")
+inp_mflayer_left.append(mflayer0_currvel)
+
+mflayer0_setvel_params = {'sensormin': 0.0, 'sensormax': 1000.0, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE34, 'src_type': 'rbf_det', 'gauss_width': 1.0} # sensormax = 2 * max_ang_vel
+mflayer0_setvel = p.Population(4, p.SpikeSourceRemote, mflayer0_setvel_params, label = "mf_set_vel_PLOT")
+inp_mflayer_left.append(mflayer0_setvel)
 
 # we have 16*16*4*2*8 input neurons = 16384 GrCs per muscle
 # ( _sans current_: 8192 neurons )
