@@ -21,9 +21,9 @@ size_pc = 8 # separate set (size 16) for left and right
 size_io = size_pc
 size_dcn = size_pc/2
 
-weights_mfdcn = 0.006 # 0.005
+weights_mfdcn = 0.003 # 0.005
 weights_pcdcn = 0.002 # was 0.08; values above ~0.002 cause spikes in the DCNs !! this is a bug most likely caused by membrane potential overflow ...
-weight_mfgrc = 0.0044 # will be like the cummulative weight -> scaled by mf dimension
+weight_mfgrc = 0.0022 # will be like the cummulative weight -> scaled by mf dimension
 # we might want different weights for different input later on!
 #weights_dcndcn = 0.001 # test!
 
@@ -33,20 +33,18 @@ max_inp_rate = 30
 # input layers
 inp_mflayer_left = []
 mflayer0_current_params = {'sensormin': 1248, 'sensormax': 2848, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE20, 'src_type': 'rbf_det', 'gauss_width': 1.0} # before: 1148 - 2948
-mflayer0_current = p.Population(8, p.SpikeSourceRemote, mflayer0_current_params, label = "mf_curr_pos_PLOT")
+mflayer0_current = p.Population(16, p.SpikeSourceRemote, mflayer0_current_params, label = "mf_curr_pos_PLOT")
 inp_mflayer_left.append(mflayer0_current)
 
-max_inp_rate = 30
-
 mflayer0_currset_params = {'sensormin': 0.0, 'sensormax': 1600.0, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE30, 'src_type': 'rbf_det', 'gauss_width': 1.0}
-mflayer0_currset = p.Population(8, p.SpikeSourceRemote, mflayer0_currset_params, label = "mf_set_pos_PLOT")
+mflayer0_currset = p.Population(16, p.SpikeSourceRemote, mflayer0_currset_params, label = "mf_set_pos_PLOT")
 inp_mflayer_left.append(mflayer0_currset)
 
-mflayer0_currvel_params = {'sensormin': 0.0, 'sensormax': 1000.0, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE33, 'src_type': 'rbf_det', 'gauss_width': 1.0} # sensormax = 2 * max_ang_vel
-mflayer0_currvel = p.Population(4, p.SpikeSourceRemote, mflayer0_currvel_params, label = "mf_curr_vel_PLOT")
-inp_mflayer_left.append(mflayer0_currvel)
+#mflayer0_currvel_params = {'sensormin': 0.0, 'sensormax': 1000.0, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE33, 'src_type': 'rbf_det', 'gauss_width': 0.5} # sensormax = 2 * max_ang_vel
+#mflayer0_currvel = p.Population(4, p.SpikeSourceRemote, mflayer0_currvel_params, label = "mf_curr_vel_PLOT")
+#inp_mflayer_left.append(mflayer0_currvel)
 
-mflayer0_setvel_params = {'sensormin': 0.0, 'sensormax': 1000.0, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE34, 'src_type': 'rbf_det', 'gauss_width': 1.0} # sensormax = 2 * max_ang_vel
+mflayer0_setvel_params = {'sensormin': 0.0, 'sensormax': 1000.0, 'max_rate': max_inp_rate, 'min_rate': 0.1, 'listen_key': 0xFEFFFE34, 'src_type': 'rbf_det', 'gauss_width': 0.5} # sensormax = 2 * max_ang_vel
 mflayer0_setvel = p.Population(4, p.SpikeSourceRemote, mflayer0_setvel_params, label = "mf_set_vel_PLOT")
 inp_mflayer_left.append(mflayer0_setvel)
 
@@ -162,7 +160,7 @@ pop_grclayer_left.stream() # to be tested for performance!
 out_list = arange(0, grcsize_left)
 projs_mfgrc_left = []
 dimsize = 1
-scweight_mfgrc = weight_mfgrc / len(inp_mflayer_left)
+scweight_mfgrc = weight_mfgrc
 for inpop in inp_mflayer_left:
     in_list = (out_list / dimsize) % inpop.size
     dimsize *= inpop.size
@@ -221,7 +219,7 @@ pro_iopcsynapsis_left = p.Projection(inp_iolayer_left, pop_pclayer_left, pro_iop
 pro_iopcsynapsis_right = p.Projection(inp_iolayer_right, pop_pclayer_right, pro_iopcsynapsis_connector, target = "inhibitory" , synapse_dynamics = None, label = "iopcsynapsis_right")
 
 # connect all inputs in inp_mflayer to their respective dcn
-pro_mfdcnsynapsis_connector = p.AllToAllConnector(weights=weights_mfdcn/len(inp_mflayer_left),delays=1.0)
+pro_mfdcnsynapsis_connector = p.AllToAllConnector(weights=weights_mfdcn,delays=1.0)
 for i, inp in enumerate(inp_mflayer_left):
 	pro_mfdcnsynapsis_left = p.Projection(inp, pop_dcnlayer_left, pro_mfdcnsynapsis_connector, target = "excitatory" , synapse_dynamics = None, label = "mfdcnsynapsis_left")
 	pro_mfdcnsynapsis_right = p.Projection(inp, pop_dcnlayer_right, pro_mfdcnsynapsis_connector, target = "excitatory" , synapse_dynamics = None, label = "mfdcnsynapsis_right")
